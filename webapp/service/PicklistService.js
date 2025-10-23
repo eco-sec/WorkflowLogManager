@@ -5,7 +5,7 @@ sap.ui.define([
 
     var PicklistService = {
         // Service URL
-        _sServiceUrl: "lmsproject/hana/xsjs/PicklistService.xsjs",
+        _sServiceUrl: "/lmsproject/hana/xsjs/PicklistService.xsjs",
 
         // Username and password
  
