@@ -1,0 +1,72 @@
+{
+	"welcomeFile": "/webapp/index.html",
+	"routes": [
+
+		{
+			"path": "/services/userapi",
+			"target": {
+				"type": "service",
+				"name": "userapi"
+			}
+		},
+
+		{
+			"path": "/resources",
+			"target": {
+				"type": "service",
+				"name": "sapui5",
+				"entryPath": "/resources"
+			},
+			"description": "SAPUI5 Resources"
+		}, {
+			"path": "/test-resources",
+			"target": {
+				"type": "service",
+				"name": "sapui5",
+				"entryPath": "/test-resources"
+			},
+			"description": "SAPUI5 Resources"
+		}, {
+			"path": "/webapp/resources",
+			"target": {
+				"type": "service",
+				"name": "sapui5",
+				"entryPath": "/resources"
+			},
+			"description": "SAPUI5 Resources"
+		}, {
+			"path": "/webapp/test-resources",
+			"target": {
+				"type": "service",
+				"name": "sapui5",
+				"entryPath": "/test-resources"
+			},
+			"description": "SAPUI5 Test Resources"
+		}, {
+			"path": "/lmsproject/hana",
+			"target": {
+				"type": "destination",
+				"name": "HANA_DB_DEV_LMS"
+			},
+			"description": "Hana DB Development Destination"
+		}
+		, {
+			"path": "/cpi",
+			"target": {
+				"type": "destination",
+				"name": "CPI"
+			},
+			"description": "SAP CPI"
+		},
+		
+		 {
+			"path": "/cpidev",
+			"target": {
+				"type": "destination",
+				"name": "CPI_DEV"
+			},
+			"description": "SAP CPI DEV"
+		}
+	],
+	"sendWelcomeFileRedirect": true
+}

@@ -1,0 +1,149 @@
+{
+	"_version": "1.12.0",
+	"sap.app": {
+		"id": "workflowLogManager.workflowLogManager",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"dataSources": {
+			"currentUserSource": {
+				"uri": "/scpServices/userAPI/currentUser",
+				"type": "JSON"
+			},
+			"workflowReportService": {
+				"uri": "/lmsproject/hana/xsodata/WorkflowReportService.xsodata/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			}
+		},
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"crossNavigation": {
+			"inbounds": {
+				"intent1": {
+					"semanticObject": "WorkflowLogManager",
+					"action": "Display"
+				}
+			}
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "ui5template.basicSAPUI5ApplicationProject",
+			"version": "1.40.12"
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		}
+	},
+	"sap.ui5": {
+		"flexEnabled": false,
+		"rootView": {
+			"viewName": "workflowLogManager.workflowLogManager.view.WorkflowReportList",
+			"type": "XML",
+			"async": true,
+			"id": "WorkflowReportList"
+		},
+		"dependencies": {
+			"minUI5Version": "1.65.6",
+			"libs": {
+				"sap.ui.layout": {},
+				"sap.ui.core": {},
+				"sap.m": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "workflowLogManager.workflowLogManager.i18n.i18n"
+				}
+			},
+			"currentUser": {
+				"dataSource": "currentUserSource",
+				"preload": true
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"async": true,
+				"viewPath": "workflowLogManager.workflowLogManager.view",
+				"controlAggregation": "pages",
+				"controlId": "app",
+				"clearControlAggregation": false
+			},
+			"routes": [
+				{
+					"pattern": "",
+					"name": "workflowReportList",
+					"target": "workflowReportList"
+				},
+				{
+					"pattern": "details/{requestId}",
+					"name": "workflowReportDetails",
+					"target": "workflowReportDetails"
+				},
+				{
+					"name": "RouteWorkflowReportListSingle",
+					"pattern": "RouteWorkflowReportListSingle/{employeeId}/{startDate}/{endDate}",
+					"target": "TargetWorkflowReportListSingle"
+				}
+			],
+			"targets": {
+				"workflowReportList": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewId": "workflowReportList",
+					"viewName": "WorkflowReportList",
+					"viewLevel": 0
+				},
+				"workflowReportDetails": {
+					"viewType": "XML",
+					"viewName": "WorkflowReportDetails",
+					"viewId": "workflowReportDetails",
+					"viewLevel": 1
+				},
+				"TargetWorkflowReportListSingle": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": true,
+					"viewId": "WorkflowReportListSingle",
+					"viewName": "WorkflowReportListSingle"
+				}
+			}
+		}
+	},
+	"sap.platform.hcp": {
+		"uri": "webapp",
+		"_version": "1.1.0"
+	}
+}

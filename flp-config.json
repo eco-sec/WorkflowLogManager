@@ -1,0 +1,34 @@
+{
+    "application": {
+        "id": "",
+        "title": "workflowReport.workflowReport.WorkflowReport",
+        "type": "SAP_UI5_Component",
+        "componentUrl": "/",
+        "appUrl": "#WorkflowReport-Display",
+        "navigationComponentName": "workflowReport.workflowReport",
+        "intentSemanticObject": "WorkflowReport",
+        "intentAction": "Display",
+        "html5ApplicationName": "workflowreport",
+        "HCPParentApplicationName": ""
+    },
+    "assignment": {
+        "groups": [
+            "00000000-0000-1111-0000-00000000"
+        ],
+        "contentPackages": [
+            "5dbfc7af-c9f4-4719-9f2e-a27cb69f4a98"
+        ],
+        "categories": []
+    },
+    "tile": {
+        "type": "StaticTile",
+        "title": "Workflow Log",
+        "subtitle": "Report",
+        "searchKeywords": "Workflow Log,Report",
+        "displayIconUrl": "sap-icon://approvals",
+        "displayInfoText": "",
+        "size": "1x1",
+        "serviceURL": "",
+        "refreshInterval": ""
+    }
+}
