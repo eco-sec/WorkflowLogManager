@@ -6,9 +6,9 @@ sap.ui.define([
 	var WorkflowReportService = {
 
 		// Service URL
-		_sServiceUrl: "/lmsproject/hana/xsjs",
-		_sServiceOdataUrl: "/lmsproject/hana/xsodata",
-		_sCPIUrl: "/cpi",
+		_sServiceUrl: "lmsproject/hana/xsjs",
+		_sServiceOdataUrl: "lmsproject/hana/xsodata",
+		_sCPIUrl: "cpi",
 		// Specific service URL for fetching an event by ID
 
 		// Username and password

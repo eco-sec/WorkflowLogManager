@@ -10,7 +10,7 @@
 				"type": "JSON"
 			},
 			"workflowReportService": {
-				"uri": "/lmsproject/hana/xsodata/WorkflowReportService.xsodata/",
+				"uri": "lmsproject/hana/xsodata/WorkflowReportService.xsodata/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0"

@@ -25,7 +25,7 @@ sap.ui.define([
 
         loadWorkflowLogData: function (filters, bIsExport) {
             var that = this;
-            var sServiceUrl = "/lmsproject/hana/xsodata/WorkflowReportService.xsodata";
+            var sServiceUrl = "lmsproject/hana/xsodata/WorkflowReportService.xsodata";
             var aFilterObjects = filters || [];
 
             // Build filter query string
@@ -157,7 +157,7 @@ sap.ui.define([
 
         onExportToExcel: function () {
             var that = this;
-            var sServiceUrl = "/lmsproject/hana/xsodata/WorkflowReportService.xsodata";
+            var sServiceUrl = "lmsproject/hana/xsodata/WorkflowReportService.xsodata";
             var aFilterObjects = this._aCurrentFilters || [];
 
             // Build filter query string
