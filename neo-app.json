@@ -46,26 +46,26 @@
 			"path": "/lmsproject/hana",
 			"target": {
 				"type": "destination",
-				"name": "HANA_DB_DEV_LMS"
+				"name": "HANA_DB_LMS"
 			},
-			"description": "Hana DB Development Destination"
+			"description": "HANA DB LMS Backend - OData and XSJS Services"
 		}
 		, {
 			"path": "/cpi",
 			"target": {
 				"type": "destination",
-				"name": "CPI"
+				"name": "CPI_LMS"
 			},
-			"description": "SAP CPI"
+			"description": "SAP Cloud Platform Integration - Workflow Services"
 		},
-		
+
 		 {
-			"path": "/cpidev",
+			"path": "/scpServices/userAPI",
 			"target": {
 				"type": "destination",
-				"name": "CPI_DEV"
+				"name": "USER_API"
 			},
-			"description": "SAP CPI DEV"
+			"description": "User API Service for Current User Information"
 		}
 	],
 	"sendWelcomeFileRedirect": true
