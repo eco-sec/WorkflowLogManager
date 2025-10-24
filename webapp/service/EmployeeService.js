@@ -6,7 +6,7 @@ sap.ui.define([
 	var EmployeeService = {
 
 		// Service URL
-		_sServiceUrl: "/cpi",
+		_sServiceUrl: "/cpidev",
 
 		/**
 		 * Fetches a single employee by their ID.

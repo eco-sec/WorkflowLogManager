@@ -15,12 +15,12 @@ This document describes the required configuration for deploying the Workflow Lo
 
 You must configure the following destinations in your SAP BTP cockpit before deploying the application.
 
-### 1. HANA_DB_LMS
+### 1. HANA_DB_DEV_LMS
 
 **Purpose**: Backend database for workflow report data and XSJS services
 
 **Configuration**:
-- **Name**: `HANA_DB_LMS`
+- **Name**: `HANA_DB_DEV_LMS`
 - **Type**: HTTP
 - **URL**: `https://<your-hana-host>:<port>`
 - **Proxy Type**: Internet
@@ -41,12 +41,12 @@ sap-client = <your-client-number>
 
 ---
 
-### 2. CPI_LMS
+### 2. CPI
 
 **Purpose**: SAP Cloud Platform Integration for workflow processing
 
 **Configuration**:
-- **Name**: `CPI_LMS`
+- **Name**: `CPI`
 - **Type**: HTTP
 - **URL**: `https://<your-cpi-host>/http`
 - **Proxy Type**: Internet
@@ -63,29 +63,29 @@ WebIDEEnabled = true
 - `/cpi/lms/instance-work-items` - Task details retrieval
 - `/cpi/workflow/approve` - Workflow approval endpoint
 - `/cpi/workflow/reject` - Workflow rejection endpoint
-- `/cpi/employee/details` - Employee information service
 
 ---
 
-### 3. USER_API
+### 3. CPI_DEV
 
-**Purpose**: Current user information for personalization
+**Purpose**: SAP Cloud Platform Integration (Development) for employee services
 
 **Configuration**:
-- **Name**: `USER_API`
+- **Name**: `CPI_DEV`
 - **Type**: HTTP
-- **URL**: `https://<your-user-api-host>`
+- **URL**: `https://<your-cpi-dev-host>/http`
 - **Proxy Type**: Internet
-- **Authentication**: As required by your user API (typically OAuth or AppToAppSSO)
+- **Authentication**: BasicAuthentication or OAuth2SAMLBearerAssertion
+- **User**: `<cpi-username>`
+- **Password**: `<cpi-password>`
 
 **Additional Properties**:
 ```
 WebIDEEnabled = true
-sap-platform = CF (or NEO depending on your setup)
 ```
 
 **Endpoints served**:
-- `/scpServices/userAPI/currentUser` - Returns current logged-in user details
+- `/cpidev/employee/details` - Employee information service
 
 ---
 
@@ -150,9 +150,9 @@ cf deploy mta_archives/<your-mtar-file>.mtar
 
 1. In SAP BTP Cockpit, navigate to **Connectivity > Destinations**
 2. Create each destination listed above with the exact names:
-   - `HANA_DB_LMS`
-   - `CPI_LMS`
-   - `USER_API`
+   - `HANA_DB_DEV_LMS`
+   - `CPI`
+   - `CPI_DEV`
 3. Test each destination to ensure connectivity
 4. Save and activate
 
@@ -189,9 +189,9 @@ cf deploy mta_archives/<your-mtar-file>.mtar
 
 **Solutions**:
 - Verify destination names exactly match those in `neo-app.json`:
-  - `HANA_DB_LMS` (not `HANA_DB_DEV_LMS`)
-  - `CPI_LMS` (not `CPI` or `CPI_DEV`)
-  - `USER_API`
+  - `HANA_DB_DEV_LMS`
+  - `CPI`
+  - `CPI_DEV`
 - Test destinations in BTP cockpit
 - Check authentication credentials
 - Verify URLs and ports are correct
@@ -295,6 +295,4 @@ neo rollback --host <region-host> --account <account-id> --application workflowl
 ### Version 1.0.0 - 2025-10-24
 - Initial deployment configuration
 - Fixed Fiori Launchpad integration issues
-- Standardized destination naming
-- Consolidated CPI endpoints to single destination
-- Added comprehensive deployment documentation
+- Added comprehensive deployment documentation with required destinations
