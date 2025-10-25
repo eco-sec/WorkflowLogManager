@@ -178,6 +178,30 @@ sap.ui.define([
 					reject(new Error("Business event creation failed."));
 				});
 			});
+		},
+
+		/**
+		 * Upserts manager subordinates data to HANA
+		 * @param {object} oManagerData - The manager data with subordinates array
+		 * @returns {Promise} A promise that resolves when the upsert is complete
+		 */
+		upsertManagerSubordinate: function (oManagerData) {
+			return new Promise((resolve, reject) => {
+				var sUrl = this._sServiceUrl + "/upsertManagerSubordinate.xsjs";
+
+				jQuery.ajax({
+					url: sUrl,
+					method: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(oManagerData),
+					success: function (data) {
+						resolve(data);
+					},
+					error: function (xhr, status, error) {
+						reject(new Error("Failed to upsert manager subordinates: " + status + " - " + error));
+					}
+				});
+			});
 		}
 
 	};

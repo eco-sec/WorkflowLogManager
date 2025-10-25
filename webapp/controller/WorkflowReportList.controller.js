@@ -5,8 +5,9 @@ sap.ui.define([
     "sap/ui/model/FilterOperator",
     "sap/ui/export/Spreadsheet",
     "sap/m/MessageToast",
-    "managerlms/MangerLMSReport/service/EmployeeService"
-], function (Controller, JSONModel, Filter, FilterOperator, Spreadsheet, MessageToast, EmployeeService) {
+    "managerlms/MangerLMSReport/service/EmployeeService",
+    "managerlms/MangerLMSReport/service/WorkflowReportService"
+], function (Controller, JSONModel, Filter, FilterOperator, Spreadsheet, MessageToast, EmployeeService, WorkflowReportService) {
     "use strict";
 
     return Controller.extend("managerlms.MangerLMSReport.controller.WorkflowReportList", {
@@ -31,6 +32,7 @@ sap.ui.define([
 
             this.fetchCurrentUser();
             this.loadWorkflowLogData();
+            this.fetchAndUpsertSubordinates();
         },
 
         fetchCurrentUser: function () {
@@ -455,6 +457,53 @@ sap.ui.define([
 
         onEmployeeCancel: function () {
             // Dialog closes automatically
+        },
+
+        /**
+         * Fetches subordinates for current user and upserts to HANA
+         */
+        fetchAndUpsertSubordinates: function () {
+            var that = this;
+
+            // Wait a bit to ensure username is loaded
+            setTimeout(function() {
+                var sCurrentUserId = that.username || "107119";
+
+                console.log("Fetching subordinates for manager:", sCurrentUserId);
+
+                EmployeeService.getSubordinates(sCurrentUserId).then(function (oData) {
+                    var aSubordinates = (oData && oData.EmployeeHierarchySet && oData.EmployeeHierarchySet.EmployeeHierarchy)
+                        ? oData.EmployeeHierarchySet.EmployeeHierarchy
+                        : [];
+
+                    console.log("Subordinates fetched:", aSubordinates.length);
+
+                    // Transform to required format
+                    var oManagerData = {
+                        MANAGERS: [
+                            {
+                                MANAGER_ID: sCurrentUserId,
+                                SUBORDINATES: aSubordinates.map(function(emp) {
+                                    return {
+                                        EMPLOYEE_ID: emp.EmpPernr || "",
+                                        EMPLOYEE_NAME: emp.EmpEnglishName || "",
+                                        EMPLOYEE_EMAIL: emp.EmpEmailId || ""
+                                    };
+                                })
+                            }
+                        ]
+                    };
+
+                    console.log("Upserting manager subordinates data:", oManagerData);
+
+                    // Upsert to HANA
+                    return WorkflowReportService.upsertManagerSubordinate(oManagerData);
+                }).then(function(oResponse) {
+                    console.log("✅ Manager subordinates upserted successfully:", oResponse);
+                }).catch(function (oError) {
+                    console.error("❌ Error upserting manager subordinates:", oError);
+                });
+            }, 1000);
         }
     });
 });
