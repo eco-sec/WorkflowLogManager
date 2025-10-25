@@ -4,8 +4,29 @@
 		"id": "managerlms.MangerLMSReport",
 		"type": "application",
 		"i18n": "i18n/i18n.properties",
+		"dataSources": {
+			"currentUserSource": {
+				"uri": "scpServices/userAPI/currentUser",
+				"type": "JSON"
+			},
+			"workflowReportService": {
+				"uri": "lmsproject/hana/xsodata/WorkflowReportService.xsodata/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			}
+		},
 		"applicationVersion": {
 			"version": "1.0.0"
+		},
+		"crossNavigation": {
+			"inbounds": {
+				"intent1": {
+					"semanticObject": "ManagerRequestReport",
+					"action": "Display"
+				}
+			}
 		},
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
@@ -33,10 +54,10 @@
 	"sap.ui5": {
 		"flexEnabled": false,
 		"rootView": {
-			"viewName": "managerlms.MangerLMSReport.view.View1",
+			"viewName": "managerlms.MangerLMSReport.view.WorkflowReportList",
 			"type": "XML",
 			"async": true,
-			"id": "View1"
+			"id": "WorkflowReportList"
 		},
 		"dependencies": {
 			"minUI5Version": "1.65.6",
@@ -56,6 +77,10 @@
 				"settings": {
 					"bundleName": "managerlms.MangerLMSReport.i18n.i18n"
 				}
+			},
+			"currentUser": {
+				"dataSource": "currentUserSource",
+				"preload": true
 			}
 		},
 		"resources": {
@@ -77,20 +102,42 @@
 			},
 			"routes": [
 				{
-					"name": "RouteView1",
-					"pattern": "RouteView1",
-					"target": [
-						"TargetView1"
-					]
+					"pattern": "",
+					"name": "workflowReportList",
+					"target": "workflowReportList"
+				},
+				{
+					"pattern": "details/{requestId}",
+					"name": "workflowReportDetails",
+					"target": "workflowReportDetails"
+				},
+				{
+					"name": "RouteWorkflowReportListSingle",
+					"pattern": "RouteWorkflowReportListSingle/{employeeId}/{startDate}/{endDate}",
+					"target": "TargetWorkflowReportListSingle"
 				}
 			],
 			"targets": {
-				"TargetView1": {
+				"workflowReportList": {
 					"viewType": "XML",
 					"transition": "slide",
 					"clearControlAggregation": false,
-					"viewId": "View1",
-					"viewName": "View1"
+					"viewId": "workflowReportList",
+					"viewName": "WorkflowReportList",
+					"viewLevel": 0
+				},
+				"workflowReportDetails": {
+					"viewType": "XML",
+					"viewName": "WorkflowReportDetails",
+					"viewId": "workflowReportDetails",
+					"viewLevel": 1
+				},
+				"TargetWorkflowReportListSingle": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": true,
+					"viewId": "WorkflowReportListSingle",
+					"viewName": "WorkflowReportListSingle"
 				}
 			}
 		}

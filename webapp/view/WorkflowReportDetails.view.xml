@@ -1,0 +1,395 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
+	xmlns:upload="sap.m.upload" controllerName="managerlms.MangerLMSReport.controller.WorkflowReportDetails">
+	<App>
+		<pages>
+			<Page title="Training Event Details">
+				<IconTabBar>
+					<items>
+						<IconTabFilter key="businessEvent" text="Business Event" visible="{tabVisibility>/showBusinessEventTab}">
+							<Panel headerText="Employee Information">
+								<l:Grid defaultSpan="L6 M6 S12">
+									<VBox class="sapUiSmallMargin">
+										<Label text="Badge No:"/>
+										<Input value="{businessEventModel>/eventDetails/BADGE_NO}" editable="false"/>
+										<Label text="Employee Name:"/>
+										<Input value="{businessEventModel>/eventDetails/EMPLOYEE_NAME}" editable="false"/>
+										<Label text="Job Name:"/>
+										<Input value="{businessEventModel>/eventDetails/JOB_NAME}" editable="false"/>
+										<Label text="Grade:"/>
+										<Input value="{businessEventModel>/eventDetails/GRADE}" editable="false"/>
+										<Label text="Nationality:"/>
+										<Input value="{businessEventModel>/eventDetails/NATIONALITY}" editable="false"/>
+										<Label text="Qualification:"/>
+										<Input value="{businessEventModel>/eventDetails/QUALIFICATION}" editable="false"/>
+										<Label text="Development Program:"/>
+										<Input value="{businessEventModel>/eventDetails/DEVELOPMENT_PROGRAM}" editable="false"/>
+										<Label text="SEC Date Entry:"/>
+										<DatePicker value="{businessEventModel>/eventDetails/SEC_DATE_ENTRY}" editable="false"/>
+									</VBox>
+									<VBox class="sapUiSmallMargin">
+										<Label text="Business Line:"/>
+										<Input value="{businessEventModel>/eventDetails/BUSINESS_LINE}" editable="false"/>
+										<Label text="Sector:"/>
+										<Input value="{businessEventModel>/eventDetails/SECTOR}" editable="false"/>
+										<Label text="Department:"/>
+										<Input value="{businessEventModel>/eventDetails/DEPARTMENT}" editable="false"/>
+										<Label text="Division:"/>
+										<Input value="{businessEventModel>/eventDetails/DIVISION}" editable="false"/>
+										<Label text="Personnel Subarea:"/>
+										<Input value="{businessEventModel>/eventDetails/PERSONNEL_SUBAREA}" editable="false"/>
+									</VBox>
+								</l:Grid>
+							</Panel>
+							<Panel headerText="Business Event Request Information">
+								<l:Grid defaultSpan="L6 M6 S12">
+									<VBox class="sapUiSmallMargin">
+										<Label text="CRID:"/>
+										<Input value="{businessEventModel>/eventDetails/EVENT_ID}" editable="false"/>
+										<Label text="Business Event Classification:"/>
+										<Input value="{businessEventModel>/eventDetails/BUSINESS_EVENT_CLASSIFICATION}" editable="false"/>
+										<Label text="Business Event Type:"/>
+										<Input value="{businessEventModel>/eventDetails/BUSINESS_EVENT_TYPE}" editable="false"/>
+										<Label text="Business Event Start Date:"/>
+										<DatePicker value="{businessEventModel>/eventDetails/BUSINESS_EVENT_START_DATE}" editable="false"/>
+										<Label text="Business Event End Date:"/>
+										<DatePicker value="{businessEventModel>/eventDetails/BUSINESS_EVENT_END_DATE}" editable="false"/>
+										<Label text="Organizer of Business Event:"/>
+										<Input value="{businessEventModel>/eventDetails/ORGANIZER_OF_BUSINESS_EVENT}" editable="false"/>
+										<Label text="Business Event Price:"/>
+										<HBox>
+											<Input
+												value="{path: 'businessEventModel>/eventDetails/BUSINESS_EVENT_PRICE', type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 2, groupingEnabled: true, groupingSeparator: ',', decimalSeparator: '.' }}"
+												editable="false" textAlign="End"/>
+											<Select value="{businessEventModel>/eventDetails/CURRENCY}" editable="false">
+												<core:Item key="SAR" text="SAR"/>
+												<core:Item key="USD" text="USD"/>
+												<core:Item key="GBP" text="GBP"/>
+												<core:Item key="EURO" text="EURO"/>
+											</Select>
+										</HBox>
+										<Label text="Business Event Link:"/>
+										<Input value="{businessEventModel>/eventDetails/BUSINESS_EVENT_LINK}" editable="false"/>
+										<Label text="Justification:"/>
+										<Input value="{businessEventModel>/eventDetails/JUSTIFICATION}" editable="false"/>
+									</VBox>
+									<VBox class="sapUiSmallMargin" width="100%">
+										<Label text="Business Event Name:"/>
+										<Input value="{businessEventModel>/eventDetails/BUSINESS_EVENT_NAME}" editable="false"/>
+										<Label text="Location of Business Event:"/>
+										<Input value="{businessEventModel>/eventDetails/LOCATION_OF_BUSINESS_EVENT}" editable="false"/>
+										<Label text="Country:"/>
+										<Input value="{businessEventModel>/eventDetails/COUNTRY}" editable="false"/>
+										<Label text="City:"/>
+										<Input value="{businessEventModel>/eventDetails/CITY}" editable="false"/>
+										<Label text="Business Event Language:"/>
+										<Input value="{businessEventModel>/eventDetails/BUSINESS_EVENT_LANGUAGE}" editable="false"/>
+										<Label text="Is Authority Approved:"/>
+										<Input value="{businessEventModel>/eventDetails/IS_AUTHORITY_APPROVED}" editable="false"/>
+										<Label text="Email:"/>
+										<Input value="{businessEventModel>/eventDetails/EMAIL}" editable="false"/>
+										<Label text="Phone Number:"/>
+										<Input value="{businessEventModel>/eventDetails/PHONE_NUMBER}" editable="false"/>
+										<Label text="Website Provider:"/>
+										<Input value="{businessEventModel>/eventDetails/WEBSITE_PROVIDER}" editable="false"/>
+									</VBox>
+								</l:Grid>
+							</Panel>
+							<Panel headerText="Attachments">
+								<VBox class="sapUiSmallMargin">
+									<Table id="attachmentsTable" items="{businessEventModel>/attachments}">
+										<columns>
+											<Column><Text text="Attachment ID"/></Column>
+											<Column><Text text="Attachment Name"/></Column>
+											<Column><Text text="Attachment Type"/></Column>
+											<Column hAlign="Center"><Text text="Download"/></Column>
+										</columns>
+										<items>
+											<ColumnListItem>
+												<cells>
+													<Text text="{businessEventModel>ATTACHMENT_ID}"/>
+													<Text text="{businessEventModel>ATTACHMENT_NAME}"/>
+													<Text text="{businessEventModel>ATTACHMENT_TYPE}"/>
+													<Button icon="sap-icon://download" press="onDownloadPress" tooltip="Download Attachment"/>
+												</cells>
+											</ColumnListItem>
+										</items>
+									</Table>
+								</VBox>
+							</Panel>
+						</IconTabFilter>
+						<IconTabFilter key="workflowLogInfo" text="Direct Enrollment" visible="{tabVisibility>/showWorkflowLogInfoTab}">
+							<Panel headerText="Workflow Log Details">
+								<l:Grid defaultSpan="L6 M6 S12">
+									<!-- Row 1 -->
+									<VBox class="sapUiSmallMargin">
+										<Label text="Request ID:"/>
+										<Input value="{workflowLogModel>/REQUEST_ID}" editable="false"/>
+									</VBox>
+									<VBox class="sapUiSmallMargin">
+										<Label text="Training Type ID:"/>
+										<Input value="{workflowLogModel>/TRAINING_TYPE_ID}" editable="false"/>
+									</VBox>
+									<!-- Row 2 -->
+									<VBox class="sapUiSmallMargin">
+										<Label text="Class ID:"/>
+										<Input value="{workflowLogModel>/CLASS_ID}" editable="false"/>
+									</VBox>
+									<VBox class="sapUiSmallMargin">
+										<Label text="Class Title:"/>
+										<Input value="{workflowLogModel>/CLASS_TITLE}" editable="false"/>
+									</VBox>
+									<!-- Row 3 -->
+									<VBox class="sapUiSmallMargin">
+										<Label text="Class Description:"/>
+										<Input value="{workflowLogModel>/CLASS_DESCRIPTION}" editable="false"/>
+									</VBox>
+									<VBox class="sapUiSmallMargin">
+										<Label text="Class Total Days:"/>
+										<Input value="{workflowLogModel>/CLASS_TOTAL_DAYS}" editable="false"/>
+									</VBox>
+									<!-- Row 4 -->
+									<!--<VBox class="sapUiSmallMargin">-->
+									<!--	<Label text="Class Start (Date & Time):"/>-->
+									<!--	<Input-->
+									<!--		value="{parts: [{path: 'workflowLogModel>/CLASS_START_DATE'}, {path: 'workflowLogModel>/CLASS_START_TIME'}], formatter: 'formatter.formatDateTime'}"-->
+									<!--		editable="false"/>-->
+									<!--</VBox>-->
+									<!--<VBox class="sapUiSmallMargin">-->
+									<!--	<Label text="Class End (Date & Time):"/>-->
+									<!--	<Input-->
+									<!--		value="{parts: [{path: 'workflowLogModel>/CLASS_END_DATE'}, {path: 'workflowLogModel>/CLASS_END_TIME'}], formatter: '.formatter.formatDateTime'}"-->
+									<!--		editable="false"/>-->
+									<!--</VBox>-->
+									<!-- Row 5 -->
+									<VBox class="sapUiSmallMargin">
+										<Label text="Employee ID:"/>
+										<Input value="{workflowLogModel>/EMPLOYEE_ID}" editable="false"/>
+									</VBox>
+									<VBox class="sapUiSmallMargin">
+										<Label text="Employee Name:"/>
+										<Input value="{workflowLogModel>/EMPLOYEE_NAME}" editable="false"/>
+									</VBox>
+									<!-- Row 6 -->
+									<VBox class="sapUiSmallMargin">
+										<Label text="Employee Email:"/>
+										<Input value="{workflowLogModel>/EMPLOYEE_EMAIL}" editable="false"/>
+									</VBox>
+									<VBox class="sapUiSmallMargin">
+										<Label text="Status:"/>
+										<Input value="{workflowLogModel>/WORKFLOW_STATUS}" editable="false"/>
+									</VBox>
+									<!-- Row 7 -->
+									<VBox class="sapUiSmallMargin">
+										<Label text="Training Language:"/>
+										<Input value="{workflowLogModel>/TRAINING_LANGUAGE}" editable="false"/>
+									</VBox>
+									<VBox class="sapUiSmallMargin">
+										<Label text="Training Duration:"/>
+										<Input value="{workflowLogModel>/TRAINING_DURATION}" editable="false"/>
+									</VBox>
+									<!-- Row 8 -->
+									<VBox class="sapUiSmallMargin">
+										<Label text="Price:"/>
+										<Input value="{workflowLogModel>/PRICE}" editable="false"/>
+									</VBox>
+									<VBox class="sapUiSmallMargin">
+										<Label text="Currency:"/>
+										<Input value="{workflowLogModel>/CURRENCY}" editable="false"/>
+									</VBox>
+									<VBox class="sapUiSmallMargin">
+										<Label text="Facility:"/>
+										<Input value="{workflowLogModel>/FACILITY_DESC}" editable="false"/>
+									</VBox>
+									<!-- Row 9 -->
+									<!--<VBox class="sapUiSmallMargin">-->
+									<!--	<Label text="Creation Date:"/>-->
+									<!--	<Input value="{path: 'workflowLogModel>/WLR_CREATION_DATE', formatter: '.formatter.formatEpochDate'}" editable="false"/>-->
+									<!--</VBox>-->
+									<!--<VBox class="sapUiSmallMargin">-->
+									<!--	<Label text="Update Date:"/>-->
+									<!--	<Input value="{path: 'workflowLogModel>/WLR_UPDATE_DATE', formatter: '.formatter.formatEpochDate'}" editable="false"/>-->
+									<!--</VBox>-->
+									<!-- Row 10 -->
+								</l:Grid>
+							</Panel>
+						</IconTabFilter>
+						<IconTabFilter key="info" text="Training Request" visible="{tabVisibility>/showInfoTab}">
+							<Panel headerText="Information">
+								<l:Grid defaultSpan="L6 M6 S12">
+									<VBox class="sapUiSmallMargin">
+										<Label text="Request ID:"/>
+										<Input value="{workflowReportModel>/requestId}" editable="false"/>
+										<Label text="Training Type ID:"/>
+										<Input value="{workflowReportModel>/trainingTypeId}" editable="false"/>
+										<Label text="Training Type Description:"/>
+										<Input value="{workflowReportModel>/trainingTypeDesc}" editable="false"/>
+										<Label text="Class ID:"/>
+										<Input value="{workflowReportModel>/classId}" editable="false"/>
+										<Label text="Class Title:"/>
+										<Input value="{workflowReportModel>/classTitle}" editable="false"/>
+										<Label text="Class Description:"/>
+										<Input value="{workflowReportModel>/classDescription}" editable="false"/>
+										<Label text="Class Start Date:"/>
+										<DatePicker value="{workflowReportModel>/classStartDateDesc}" editable="false"/>
+										<Label text="Class End Date:"/>
+										<DatePicker value="{workflowReportModel>/classEndDateDesc}" editable="false"/>
+										<Label text="Class Total Days:"/>
+										<Input value="{workflowReportModel>/classTotalDays}" editable="false"/>
+										<Label text="Country:"/>
+										<Input value="{workflowReportModel>/country}" editable="false"/>
+										<Label text="City:"/>
+										<Input value="{workflowReportModel>/city}" editable="false"/>
+										<Label text="Training Center Name:"/>
+										<Input value="{workflowReportModel>/trainingCenterName}" editable="false"/>
+										<Label text="Training Duration:"/>
+										<Input value="{workflowReportModel>/trainingDuration}" editable="false"/>
+										<Label text="Training Language:"/>
+										<Input value="{workflowReportModel>/trainingLanguage}" editable="false"/>
+										<Label text="Price:"/>
+										<Input value="{workflowReportModel>/price}" editable="false"/>
+										<Label text="Currency:"/>
+										<Input value="{workflowReportModel>/currency}" editable="false"/>
+									</VBox>
+									<VBox class="sapUiSmallMargin">
+										<Label text="Status:"/>
+										<Input value="{workflowReportModel>/status}" editable="false"/>
+										<Label text="Employee ID:"/>
+										<Input value="{workflowReportModel>/employeeId}" editable="false"/>
+										<Label text="Employee Name:"/>
+										<Input value="{workflowReportModel>/employeeName}" editable="false"/>
+										<Label text="Employee Mail:"/>
+										<Input value="{workflowReportModel>/employeeMail}" editable="false"/>
+										<Label text="Employee Position:"/>
+										<Input value="{workflowReportModel>/employeePosition}" editable="false"/>
+										<Label text="Employee Organization ID:"/>
+										<Input value="{workflowReportModel>/employeeOrganizationId}" editable="false"/>
+										<Label text="Employee Organization Description:"/>
+										<Input value="{workflowReportModel>/employeeOrganizationDesc}" editable="false"/>
+										<Label text="Grade Level:"/>
+										<Input value="{workflowReportModel>/gradeLevel}" editable="false"/>
+										<Label text="Facility:"/>
+										<Input value="{workflowReportModel>/facility}" editable="false"/>
+									</VBox>
+								</l:Grid>
+							</Panel>
+						</IconTabFilter>
+						<IconTabFilter key="currentApproverList" text="Current Approvers" visible="{tabVisibility>/showCurrentApproverList}">
+							<VBox class="sapUiSmallMargin">
+								<Table id="currentApproversTable" items="{workflowReportModel>/currentApproverList}">
+									<columns>
+										<Column>
+											<Text text="Agent"/>
+										</Column>
+										<Column>
+											<Text text="Emp Email"/>
+										</Column>
+										<Column>
+											<Text text="Position Name"/>
+										</Column>
+										<Column>
+											<Text text="Org Name"/>
+										</Column>
+										<Column>
+											<Text text="Agent Email"/>
+										</Column>
+										<Column>
+											<Text text="Agent Name"/>
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem>
+											<cells>
+												<Text text="{workflowReportModel>Agent}"/>
+												<Text text="{workflowReportModel>EmpEmail}"/>
+												<Text text="{workflowReportModel>PositionName}"/>
+												<Text text="{workflowReportModel>OrgName}"/>
+												<Text text="{workflowReportModel>AgentEmail}"/>
+												<Text text="{workflowReportModel>AgentName}"/>
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+							</VBox>
+						</IconTabFilter>
+						<IconTabFilter key="approverList" text="Approvers" visible="{tabVisibility>/showApproverList}">
+							<VBox class="sapUiSmallMargin">
+								<Table id="approversTable" items="{workflowReportModel>/approverList}">
+									<columns>
+										<Column>
+											<Text text="Agent"/>
+										</Column>
+										<Column>
+											<Text text="Emp Email"/>
+										</Column>
+										<Column>
+											<Text text="Position Name"/>
+										</Column>
+										<Column>
+											<Text text="Org Name"/>
+										</Column>
+										<Column>
+											<Text text="Agent Email"/>
+										</Column>
+										<Column>
+											<Text text="Agent Name"/>
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem>
+											<cells>
+												<Text text="{workflowReportModel>Agent}"/>
+												<Text text="{workflowReportModel>EmpEmail}"/>
+												<Text text="{workflowReportModel>PositionName}"/>
+												<Text text="{workflowReportModel>OrgName}"/>
+												<Text text="{workflowReportModel>AgentEmail}"/>
+												<Text text="{workflowReportModel>AgentName}"/>
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+							</VBox>
+						</IconTabFilter>
+						<IconTabFilter key="approverComments" text="Approver Comments" visible="{tabVisibility>/showApproverCommentList}">
+							<VBox class="sapUiSmallMargin">
+								<Table id="approverCommentsTable" items="{workflowReportModel>/ApproverCommentList}">
+									<columns>
+										<Column>
+											<Text text="User ID"/>
+										</Column>
+										<Column>
+											<Text text="Agent Name"/>
+										</Column>
+										<Column>
+											<Text text="Position Name"/>
+										</Column>
+										<Column>
+											<Text text="Org Name"/>
+										</Column>
+										<Column>
+											<Text text="Comment"/>
+										</Column>
+										<Column>
+											<Text text="Timestamp"/>
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem>
+											<cells>
+												<Text text="{workflowReportModel>userId}"/>
+												<Text text="{workflowReportModel>agentName}"/>
+												<Text text="{workflowReportModel>positionName}"/>
+												<Text text="{workflowReportModel>orgName}"/>
+												<Text text="{workflowReportModel>comment}"/>
+												<Text text="{workflowReportModel>timestamp}"/>
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+							</VBox>
+						</IconTabFilter>
+					</items>
+				</IconTabBar>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>
