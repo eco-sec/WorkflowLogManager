@@ -1,14 +1,14 @@
 {
     "application": {
-        "id": "",
-        "title": "workflowReport.workflowReport.WorkflowReport",
+        "id": "workflowLogManager.workflowLogManager",
+        "title": "Workflow Log Manager",
         "type": "SAP_UI5_Component",
         "componentUrl": "/",
-        "appUrl": "#WorkflowReport-Display",
-        "navigationComponentName": "workflowReport.workflowReport",
-        "intentSemanticObject": "WorkflowReport",
+        "appUrl": "#WorkflowLogManager-Display",
+        "navigationComponentName": "workflowLogManager.workflowLogManager",
+        "intentSemanticObject": "WorkflowLogManager",
         "intentAction": "Display",
-        "html5ApplicationName": "workflowreport",
+        "html5ApplicationName": "workflowlogmanager",
         "HCPParentApplicationName": ""
     },
     "assignment": {
