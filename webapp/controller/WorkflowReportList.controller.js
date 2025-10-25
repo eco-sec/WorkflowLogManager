@@ -31,7 +31,6 @@ sap.ui.define([
             this.getView().setModel(oUserInfoModel, "userInfo");
 
             this.fetchCurrentUser();
-            this.loadWorkflowLogData();
             this.fetchAndUpsertSubordinates();
         },
 
@@ -116,7 +115,7 @@ sap.ui.define([
 
             // 1. Fetch total count
             var oCountModel = new JSONModel();
-            var sCountUrl = sServiceUrl + "/WorkflowLogView/$count" + sFilterQuery;
+            var sCountUrl = sServiceUrl + "/WorkflowManagerSubordinateView/$count" + sFilterQuery;
             oCountModel.loadData(sCountUrl, null, true, "GET", false, false, {
                 "Content-Type": "application/json"
             });
@@ -127,7 +126,7 @@ sap.ui.define([
 
             // 2. Fetch paged or full data
             var oDataModel = new JSONModel();
-            var sDataUrl = sServiceUrl + "/WorkflowLogView" + sFilterQuery + sPaginationQuery;
+            var sDataUrl = sServiceUrl + "/WorkflowManagerSubordinateView" + sFilterQuery + sPaginationQuery;
 
             this.getView().byId("workflowLogTable").setBusy(true);
 
@@ -239,7 +238,7 @@ sap.ui.define([
 
             // Fetch all data without pagination for export
             var oExportModel = new JSONModel();
-            var sExportUrl = sServiceUrl + "/WorkflowLogView" + sFilterQuery;
+            var sExportUrl = sServiceUrl + "/WorkflowManagerSubordinateView" + sFilterQuery;
 
             oExportModel.loadData(sExportUrl, null, true, "GET", false, false, {
                 "Content-Type": "application/json"
@@ -500,8 +499,12 @@ sap.ui.define([
                     return WorkflowReportService.upsertManagerSubordinate(oManagerData);
                 }).then(function(oResponse) {
                     console.log("✅ Manager subordinates upserted successfully:", oResponse);
+                    // Load workflow data from WorkflowManagerSubordinateView after upsert completes
+                    that.loadWorkflowLogData([], false);
                 }).catch(function (oError) {
                     console.error("❌ Error upserting manager subordinates:", oError);
+                    // Load workflow data even if upsert fails (fallback)
+                    that.loadWorkflowLogData([], false);
                 });
             }, 1000);
         }

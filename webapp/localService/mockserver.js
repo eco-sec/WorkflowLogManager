@@ -46,7 +46,7 @@ sap.ui.define([
 							readyState: 4,
 							status: 200,
 							statusText: "OK",
-							responseText: '<?xml version="1.0" encoding="utf-8"?><edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"><edmx:DataServices m:DataServiceVersion="2.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><Schema Namespace="WorkflowReportService" xmlns="http://schemas.microsoft.com/ado/2008/09/edm"><EntityType Name="WorkflowLogView"><Key><PropertyRef Name="REQUEST_ID"/></Key><Property Name="REQUEST_ID" Type="Edm.String" Nullable="false"/><Property Name="EMPLOYEE_ID" Type="Edm.String"/><Property Name="EMPLOYEE_NAME" Type="Edm.String"/><Property Name="WORKFLOW_TYPE" Type="Edm.String"/><Property Name="WORKFLOW_STATUS" Type="Edm.String"/><Property Name="CLASS_ID" Type="Edm.String"/><Property Name="CLASS_TITLE" Type="Edm.String"/><Property Name="CLASS_START_DATE" Type="Edm.DateTime"/><Property Name="CLASS_END_DATE" Type="Edm.DateTime"/><Property Name="CREATED_DATE" Type="Edm.DateTime"/></EntityType><EntityContainer Name="WorkflowReportServiceEntities" m:IsDefaultEntityContainer="true"><EntitySet Name="WorkflowLogView" EntityType="WorkflowReportService.WorkflowLogView"/></EntityContainer></Schema></edmx:DataServices></edmx:Edmx>',
+							responseText: '<?xml version="1.0" encoding="utf-8"?><edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"><edmx:DataServices m:DataServiceVersion="2.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"><Schema Namespace="WorkflowReportService" xmlns="http://schemas.microsoft.com/ado/2008/09/edm"><EntityType Name="WorkflowLogView"><Key><PropertyRef Name="REQUEST_ID"/></Key><Property Name="REQUEST_ID" Type="Edm.String" Nullable="false"/><Property Name="EMPLOYEE_ID" Type="Edm.String"/><Property Name="EMPLOYEE_NAME" Type="Edm.String"/><Property Name="WORKFLOW_TYPE" Type="Edm.String"/><Property Name="WORKFLOW_STATUS" Type="Edm.String"/><Property Name="CLASS_ID" Type="Edm.String"/><Property Name="CLASS_TITLE" Type="Edm.String"/><Property Name="CLASS_START_DATE" Type="Edm.DateTime"/><Property Name="CLASS_END_DATE" Type="Edm.DateTime"/><Property Name="CREATED_DATE" Type="Edm.DateTime"/></EntityType><EntityType Name="WorkflowManagerSubordinateView"><Key><PropertyRef Name="REQUEST_ID"/></Key><Property Name="REQUEST_ID" Type="Edm.String" Nullable="false"/><Property Name="EMPLOYEE_ID" Type="Edm.String"/><Property Name="EMPLOYEE_NAME" Type="Edm.String"/><Property Name="WORKFLOW_TYPE" Type="Edm.String"/><Property Name="WORKFLOW_STATUS" Type="Edm.String"/><Property Name="CLASS_ID" Type="Edm.String"/><Property Name="CLASS_TITLE" Type="Edm.String"/><Property Name="CLASS_START_DATE" Type="Edm.DateTime"/><Property Name="CLASS_END_DATE" Type="Edm.DateTime"/><Property Name="CREATED_DATE" Type="Edm.DateTime"/></EntityType><EntityContainer Name="WorkflowReportServiceEntities" m:IsDefaultEntityContainer="true"><EntitySet Name="WorkflowLogView" EntityType="WorkflowReportService.WorkflowLogView"/><EntitySet Name="WorkflowManagerSubordinateView" EntityType="WorkflowReportService.WorkflowManagerSubordinateView"/></EntityContainer></Schema></edmx:DataServices></edmx:Edmx>',
 							getResponseHeader: function(name) {
 								if (name === "Content-Type") return "application/xml";
 								return null;
@@ -102,9 +102,16 @@ sap.ui.define([
 						shouldMock = true;
 					}
 
-					// Handle WorkflowLogView data request
+					// Handle WorkflowLogView data request (legacy)
 					else if (url.indexOf("/WorkflowLogView") > -1) {
-						console.log("✅ Mocking: Workflow Report List API");
+						console.log("✅ Mocking: Workflow Report List API (WorkflowLogView)");
+						mockData = oMockData.workflowReport;
+						shouldMock = true;
+					}
+
+					// Handle WorkflowManagerSubordinateView data request
+					else if (url.indexOf("/WorkflowManagerSubordinateView") > -1) {
+						console.log("✅ Mocking: Workflow Manager Subordinate View API");
 						mockData = oMockData.workflowReport;
 						shouldMock = true;
 					}
@@ -112,7 +119,7 @@ sap.ui.define([
 					// Handle service root request
 					else {
 						console.log("✅ Mocking: OData Service Root");
-						mockData = {"d":{"EntitySets":["WorkflowLogView", "WorkflowLog"]}};
+						mockData = {"d":{"EntitySets":["WorkflowLogView", "WorkflowLog", "WorkflowManagerSubordinateView"]}};
 						shouldMock = true;
 					}
 				}
@@ -255,12 +262,37 @@ sap.ui.define([
 				}
 			});
 
-			// Mock Workflow Report List
+			// Mock Workflow Report List (legacy WorkflowLogView)
 			aRequests.push({
 				method: "GET",
 				path: /.*\/lmsproject\/hana\/xsodata\/WorkflowReportService\.xsodata\/WorkflowLogView.*/,
 				response: function(oXhr) {
 					console.log("✅ Mocking: Workflow Log View API");
+
+					// Extract employee ID from URL
+					var url = oXhr.url;
+					var employeeIdMatch = url.match(/EMPLOYEE_ID eq '(\d+)'/);
+					var employeeId = employeeIdMatch ? employeeIdMatch[1] : null;
+
+					if (employeeId) {
+						// Filter workflow data for specific employee
+						var filteredData = JSON.parse(JSON.stringify(oMockData.workflowReport));
+						filteredData.d.results = filteredData.d.results.filter(function(item) {
+							return item.EMPLOYEE_ID === employeeId;
+						});
+						oXhr.respondJSON(200, {}, filteredData);
+					} else {
+						oXhr.respondJSON(200, {}, oMockData.workflowReport);
+					}
+				}
+			});
+
+			// Mock Workflow Manager Subordinate View
+			aRequests.push({
+				method: "GET",
+				path: /.*\/lmsproject\/hana\/xsodata\/WorkflowReportService\.xsodata\/WorkflowManagerSubordinateView.*/,
+				response: function(oXhr) {
+					console.log("✅ Mocking: Workflow Manager Subordinate View API");
 
 					// Extract employee ID from URL
 					var url = oXhr.url;
