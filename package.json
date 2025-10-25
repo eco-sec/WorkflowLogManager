@@ -7,9 +7,9 @@
     "@sap/ui5-builder-webide-extension": "1.0.x"
   },
   "scripts": {
-    "build": "ui5 build --clean-dest --include-task=generateManifestBundle generateCachebusterInfo"
-  
-      ,"zip": "zip -r MangerLMSReport-webide.zip webapp/ neo-app.json ui5.yaml package.json -x '*.DS_Store' -x '*__MACOSX*' -x 'webapp/.git*'",
+    "start": "ui5 serve --port 8080 --open index.html",
+    "build": "ui5 build --clean-dest --include-task=generateManifestBundle generateCachebusterInfo",
+    "zip": "zip -r MangerLMSReport-webide.zip webapp/ neo-app.json ui5.yaml package.json -x '*.DS_Store' -x '*__MACOSX*' -x 'webapp/.git*'",
     "zip:clean": "rm -f MangerLMSReport-webide.zip && npm run zip"
   },
   "ui5": {
