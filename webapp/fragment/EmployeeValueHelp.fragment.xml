@@ -1,0 +1,15 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog
+		id="employeeValueHelpDialog"
+		title="Select Employee"
+		noDataText="No employees found"
+		search="onEmployeeSearch"
+		confirm="onEmployeeConfirm"
+		cancel="onEmployeeCancel"
+		items="{employeeModel>/EmployeeList}">
+		<StandardListItem
+			title="{employeeModel>EmpEnglishName}"
+			description="{= 'Badge: ' + ${employeeModel>EmpPernr} + ' | ' + ${employeeModel>EmpEmailId}}"
+			type="Active"/>
+	</SelectDialog>
+</core:FragmentDefinition>

@@ -125,7 +125,8 @@ sap.ui.define([
 				}
 
 				// Mock Subordinates API
-				else if (url && (url.indexOf("/cpi/employee/getSubordinate") > -1 || url.indexOf("/cpi/tc/getSubordinate") > -1)) {
+				else if (url && (url.indexOf("/cpi/employee/getSubordinate") > -1 || url.indexOf("/cpi/tc/getSubordinate") > -1 ||
+				                 url.indexOf("/cpidev/employee/getSubordinate") > -1 || url.indexOf("/cpidev/tc/getSubordinate") > -1)) {
 					console.log("✅ Mocking: Subordinates API");
 					mockData = oMockData.subordinates;
 					shouldMock = true;
@@ -247,7 +248,7 @@ sap.ui.define([
 			// Mock Employee Service - get subordinates
 			aRequests.push({
 				method: "GET",
-				path: /.*\/cpi\/(employee|tc)\/getSubordinate.*/,
+				path: /.*\/cpi(dev)?\/(employee|tc)\/getSubordinate.*/,
 				response: function(oXhr) {
 					console.log("✅ Mocking: Get Subordinates API");
 					oXhr.respondJSON(200, {}, oMockData.subordinates);

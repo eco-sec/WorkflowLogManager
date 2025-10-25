@@ -8,10 +8,26 @@
         <App id="app">
             <pages>
                 <Page id="page" title="Workflow Report">
+                    <customHeader>
+                        <Bar>
+                            <contentLeft>
+                                <Title text="Workflow Report" level="H1"/>
+                            </contentLeft>
+                            <contentRight>
+                                <Text text="{userInfo>/displayText}" class="sapUiTinyMarginEnd"/>
+                            </contentRight>
+                        </Bar>
+                    </customHeader>
                     <content>
                         <layout:Grid defaultSpan="L4 M4 S12" hSpacing="0.5rem" vSpacing="0.5rem">
+                            <VBox class="sapUiSmallMargin">
+                                <Label text="Employee ID"/>
+                                <Input id="employeeIdInput"
+                                    showValueHelp="true"
+                                    valueHelpRequest="onEmployeeValueHelp"
+                                    placeholder="Select or enter Employee ID"/>
+                            </VBox>
                             <VBox class="sapUiSmallMargin"><Label text="Request ID"/><Input id="requestIdInput"/></VBox>
-                            <VBox class="sapUiSmallMargin"><Label text="Employee ID"/><Input id="employeeIdInput"/></VBox>
                             <VBox class="sapUiSmallMargin">
                                 <Label text="Training Type"/>
                                 <Select id="trainingTypeInput" width="100%">

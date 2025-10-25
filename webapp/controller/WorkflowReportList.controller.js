@@ -4,8 +4,9 @@ sap.ui.define([
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/export/Spreadsheet",
-    "sap/m/MessageToast"
-], function (Controller, JSONModel, Filter, FilterOperator, Spreadsheet, MessageToast) {
+    "sap/m/MessageToast",
+    "managerlms/MangerLMSReport/service/EmployeeService"
+], function (Controller, JSONModel, Filter, FilterOperator, Spreadsheet, MessageToast, EmployeeService) {
     "use strict";
 
     return Controller.extend("managerlms.MangerLMSReport.controller.WorkflowReportList", {
@@ -20,7 +21,55 @@ sap.ui.define([
             });
             this.getView().setModel(oViewModel, "view");
 
+            // User info model
+            var oUserInfoModel = new JSONModel({
+                userId: "",
+                userName: "",
+                displayText: "Loading..."
+            });
+            this.getView().setModel(oUserInfoModel, "userInfo");
+
+            this.fetchCurrentUser();
             this.loadWorkflowLogData();
+        },
+
+        fetchCurrentUser: function () {
+            var oUserModel = new JSONModel();
+            var that = this;
+
+            // Set default username for local testing (in case API fails)
+            that.username = "107119";
+
+            // Update user info model with default
+            this.getView().getModel("userInfo").setData({
+                userId: "107119",
+                userName: "Ahmed Hassan",
+                displayText: "Logged in as: Ahmed Hassan (107119)"
+            });
+
+            oUserModel.loadData("/services/userapi/currentUser");
+            oUserModel.attachRequestCompleted(function (oEvent) {
+                if (oEvent.getParameter("success")) {
+                    var oData = oUserModel.getData();
+                    var sCurrentUserId = oData.name || "107119";
+                    var sCurrentUserName = oData.firstname ? (oData.firstname + " " + (oData.lastname || "")) : "User";
+                    that.username = sCurrentUserId;
+
+                    // Update user info model
+                    that.getView().getModel("userInfo").setData({
+                        userId: sCurrentUserId,
+                        userName: sCurrentUserName,
+                        displayText: "Logged in as: " + sCurrentUserName + " (" + sCurrentUserId + ")"
+                    });
+
+                    console.log("✅ User loaded:", sCurrentUserId);
+                } else {
+                    console.error("Error retrieving user info - using default username:", that.username);
+                }
+            }.bind(this));
+            oUserModel.attachRequestFailed(function () {
+                console.error("Failed to load current user data - using default username:", that.username);
+            }.bind(this));
         },
 
         loadWorkflowLogData: function (filters, bIsExport) {
@@ -338,6 +387,74 @@ sap.ui.define([
                 }
             });
             return data; // Array.from(map.values());
+        },
+
+        // ========== Employee Value Help Handlers ==========
+
+        onEmployeeValueHelp: function () {
+            var that = this;
+
+            // Create Value Help dialog if not exists
+            if (!this._employeeValueHelpDialog) {
+                this._employeeValueHelpDialog = sap.ui.xmlfragment(
+                    "managerlms.MangerLMSReport.fragment.EmployeeValueHelp",
+                    this
+                );
+                this.getView().addDependent(this._employeeValueHelpDialog);
+            }
+
+            // Show busy indicator
+            sap.ui.core.BusyIndicator.show(0);
+
+            // Fetch subordinates for the current user
+            EmployeeService.getSubordinates(this.username).then(function (oData) {
+                var aSubordinates = (oData && oData.EmployeeHierarchySet && oData.EmployeeHierarchySet.EmployeeHierarchy)
+                    ? oData.EmployeeHierarchySet.EmployeeHierarchy
+                    : [];
+
+                // Set subordinates model
+                that._employeeValueHelpDialog.setModel(new JSONModel({
+                    EmployeeList: aSubordinates
+                }), "employeeModel");
+
+                // Open the dialog
+                that._employeeValueHelpDialog.open();
+            }).catch(function (oError) {
+                console.error("Error fetching subordinates", oError);
+                MessageToast.show("Failed to load employees.");
+            }).finally(function () {
+                sap.ui.core.BusyIndicator.hide();
+            });
+        },
+
+        onEmployeeSearch: function (oEvent) {
+            var sValue = oEvent.getParameter("value");
+            var oFilter = new Filter({
+                filters: [
+                    new Filter("EmpPernr", FilterOperator.Contains, sValue),
+                    new Filter("EmpEnglishName", FilterOperator.Contains, sValue),
+                    new Filter("EmpEmailId", FilterOperator.Contains, sValue)
+                ],
+                and: false
+            });
+            var oBinding = oEvent.getSource().getBinding("items");
+            oBinding.filter([oFilter]);
+        },
+
+        onEmployeeConfirm: function (oEvent) {
+            var oSelectedItem = oEvent.getParameter("selectedItem");
+            if (oSelectedItem) {
+                var oContext = oSelectedItem.getBindingContext("employeeModel");
+                var oEmployee = oContext.getObject();
+
+                // Set selected employee ID
+                var oEmployeeIdInput = this.byId("employeeIdInput");
+                oEmployeeIdInput.setValue(oEmployee.EmpPernr);
+            }
+        },
+
+        onEmployeeCancel: function () {
+            // Dialog closes automatically
         }
     });
 });
