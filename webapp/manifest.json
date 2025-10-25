@@ -110,11 +110,6 @@
 					"pattern": "details/{requestId}",
 					"name": "workflowReportDetails",
 					"target": "workflowReportDetails"
-				},
-				{
-					"name": "RouteWorkflowReportListSingle",
-					"pattern": "RouteWorkflowReportListSingle/{employeeId}/{startDate}/{endDate}",
-					"target": "TargetWorkflowReportListSingle"
 				}
 			],
 			"targets": {
@@ -131,13 +126,6 @@
 					"viewName": "WorkflowReportDetails",
 					"viewId": "workflowReportDetails",
 					"viewLevel": 1
-				},
-				"TargetWorkflowReportListSingle": {
-					"viewType": "XML",
-					"transition": "slide",
-					"clearControlAggregation": true,
-					"viewId": "WorkflowReportListSingle",
-					"viewName": "WorkflowReportListSingle"
 				}
 			}
 		}
