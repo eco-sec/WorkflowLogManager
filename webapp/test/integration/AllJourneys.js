@@ -7,7 +7,7 @@ sap.ui.define([
 
 	Opa5.extendConfig({
 		arrangements: new Startup(),
-		viewNamespace: "workflowReport.workflowReport.view.",
+		viewNamespace: "managerlms.MangerLMSReport.view.",
 		autoWait: true
 	});
 });

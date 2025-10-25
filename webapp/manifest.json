@@ -1,32 +1,11 @@
 {
 	"_version": "1.12.0",
 	"sap.app": {
-		"id": "eco.sec.managerRequestReport",
+		"id": "managerlms.MangerLMSReport",
 		"type": "application",
 		"i18n": "i18n/i18n.properties",
-		"dataSources": {
-			"currentUserSource": {
-				"uri": "scpServices/userAPI/currentUser",
-				"type": "JSON"
-			},
-			"workflowReportService": {
-				"uri": "lmsproject/hana/xsodata/WorkflowReportService.xsodata/",
-				"type": "OData",
-				"settings": {
-					"odataVersion": "2.0"
-				}
-			}
-		},
 		"applicationVersion": {
 			"version": "1.0.0"
-		},
-		"crossNavigation": {
-			"inbounds": {
-				"intent1": {
-					"semanticObject": "ManagerRequestReport",
-					"action": "Display"
-				}
-			}
 		},
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
@@ -54,10 +33,10 @@
 	"sap.ui5": {
 		"flexEnabled": false,
 		"rootView": {
-			"viewName": "eco.sec.managerRequestReport.view.WorkflowReportList",
+			"viewName": "managerlms.MangerLMSReport.view.View1",
 			"type": "XML",
 			"async": true,
-			"id": "WorkflowReportList"
+			"id": "View1"
 		},
 		"dependencies": {
 			"minUI5Version": "1.65.6",
@@ -75,12 +54,8 @@
 			"i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
 				"settings": {
-					"bundleName": "eco.sec.managerRequestReport.i18n.i18n"
+					"bundleName": "managerlms.MangerLMSReport.i18n.i18n"
 				}
-			},
-			"currentUser": {
-				"dataSource": "currentUserSource",
-				"preload": true
 			}
 		},
 		"resources": {
@@ -95,49 +70,27 @@
 				"routerClass": "sap.m.routing.Router",
 				"viewType": "XML",
 				"async": true,
-				"viewPath": "eco.sec.managerRequestReport.view",
+				"viewPath": "managerlms.MangerLMSReport.view",
 				"controlAggregation": "pages",
 				"controlId": "app",
 				"clearControlAggregation": false
 			},
 			"routes": [
 				{
-					"pattern": "",
-					"name": "workflowReportList",
-					"target": "workflowReportList"
-				},
-				{
-					"pattern": "details/{requestId}",
-					"name": "workflowReportDetails",
-					"target": "workflowReportDetails"
-				},
-				{
-					"name": "RouteWorkflowReportListSingle",
-					"pattern": "RouteWorkflowReportListSingle/{employeeId}/{startDate}/{endDate}",
-					"target": "TargetWorkflowReportListSingle"
+					"name": "RouteView1",
+					"pattern": "RouteView1",
+					"target": [
+						"TargetView1"
+					]
 				}
 			],
 			"targets": {
-				"workflowReportList": {
+				"TargetView1": {
 					"viewType": "XML",
 					"transition": "slide",
 					"clearControlAggregation": false,
-					"viewId": "workflowReportList",
-					"viewName": "WorkflowReportList",
-					"viewLevel": 0
-				},
-				"workflowReportDetails": {
-					"viewType": "XML",
-					"viewName": "WorkflowReportDetails",
-					"viewId": "workflowReportDetails",
-					"viewLevel": 1
-				},
-				"TargetWorkflowReportListSingle": {
-					"viewType": "XML",
-					"transition": "slide",
-					"clearControlAggregation": true,
-					"viewId": "WorkflowReportListSingle",
-					"viewName": "WorkflowReportListSingle"
+					"viewId": "View1",
+					"viewName": "View1"
 				}
 			}
 		}

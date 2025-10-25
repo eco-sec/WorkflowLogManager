@@ -1,16 +1,13 @@
 {
-  "name": "eco.sec.managerRequestReport",
+  "name": "MangerLMSReport",
   "version": "0.0.1",
-  "description": "Manager Request Report - A comprehensive manager request reporting and management application",
+  "description": "",
   "devDependencies": {
     "@ui5/cli": "1.13.0",
     "@sap/ui5-builder-webide-extension": "1.0.x"
   },
   "scripts": {
-    "start": "ui5 serve --open",
-    "build": "ui5 build --clean-dest --include-task=generateManifestBundle generateCachebusterInfo",
-    "zip": "zip -r ManagerRequestReport-webide.zip webapp/ neo-app.json ui5.yaml package.json flp-config.json -x '*.DS_Store' -x '*__MACOSX*' -x 'webapp/.git*'",
-    "zip:clean": "rm -f ManagerRequestReport-webide.zip && npm run zip"
+    "build": "ui5 build --clean-dest --include-task=generateManifestBundle generateCachebusterInfo"
   },
   "ui5": {
     "dependencies": [

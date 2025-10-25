@@ -1,7 +1,7 @@
 /*global QUnit*/
 
 sap.ui.define([
-	"workflowReport/workflowReport/controller/View1.controller"
+	"managerlms/MangerLMSReport/controller/View1.controller"
 ], function (Controller) {
 	"use strict";
 

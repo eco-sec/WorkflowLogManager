@@ -5,7 +5,7 @@ sap.ui.getCore().attachInit(function () {
 	"use strict";
 
 	sap.ui.require([
-		"workflowReport/workflowReport/test/integration/AllJourneys"
+		"managerlms/MangerLMSReport/test/integration/AllJourneys"
 	], function () {
 		QUnit.start();
 	});
