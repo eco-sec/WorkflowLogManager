@@ -1,14 +1,14 @@
 {
     "application": {
-        "id": "workflowLogManager.workflowLogManager",
-        "title": "Workflow Log Manager",
+        "id": "eco.sec.managerRequestReport",
+        "title": "Manager Request Report",
         "type": "SAP_UI5_Component",
         "componentUrl": "/",
-        "appUrl": "#WorkflowLogManager-Display",
-        "navigationComponentName": "workflowLogManager.workflowLogManager",
-        "intentSemanticObject": "WorkflowLogManager",
+        "appUrl": "#ManagerRequestReport-Display",
+        "navigationComponentName": "eco.sec.managerRequestReport",
+        "intentSemanticObject": "ManagerRequestReport",
         "intentAction": "Display",
-        "html5ApplicationName": "workflowlogmanager",
+        "html5ApplicationName": "ecosecmanagerrequestReport",
         "HCPParentApplicationName": ""
     },
     "assignment": {
@@ -22,9 +22,9 @@
     },
     "tile": {
         "type": "StaticTile",
-        "title": "Workflow Log",
+        "title": "Manager Request",
         "subtitle": "Report",
-        "searchKeywords": "Workflow Log,Report",
+        "searchKeywords": "Manager Request,Report",
         "displayIconUrl": "sap-icon://approvals",
         "displayInfoText": "",
         "size": "1x1",

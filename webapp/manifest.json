@@ -1,16 +1,16 @@
 {
 	"_version": "1.12.0",
 	"sap.app": {
-		"id": "workflowLogManager.workflowLogManager",
+		"id": "eco.sec.managerRequestReport",
 		"type": "application",
 		"i18n": "i18n/i18n.properties",
 		"dataSources": {
 			"currentUserSource": {
-				"uri": "/scpServices/userAPI/currentUser",
+				"uri": "scpServices/userAPI/currentUser",
 				"type": "JSON"
 			},
 			"workflowReportService": {
-				"uri": "/lmsproject/hana/xsodata/WorkflowReportService.xsodata/",
+				"uri": "lmsproject/hana/xsodata/WorkflowReportService.xsodata/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0"
@@ -23,7 +23,7 @@
 		"crossNavigation": {
 			"inbounds": {
 				"intent1": {
-					"semanticObject": "WorkflowLogManager",
+					"semanticObject": "ManagerRequestReport",
 					"action": "Display"
 				}
 			}
@@ -54,7 +54,7 @@
 	"sap.ui5": {
 		"flexEnabled": false,
 		"rootView": {
-			"viewName": "workflowLogManager.workflowLogManager.view.WorkflowReportList",
+			"viewName": "eco.sec.managerRequestReport.view.WorkflowReportList",
 			"type": "XML",
 			"async": true,
 			"id": "WorkflowReportList"
@@ -75,7 +75,7 @@
 			"i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
 				"settings": {
-					"bundleName": "workflowLogManager.workflowLogManager.i18n.i18n"
+					"bundleName": "eco.sec.managerRequestReport.i18n.i18n"
 				}
 			},
 			"currentUser": {
@@ -95,7 +95,7 @@
 				"routerClass": "sap.m.routing.Router",
 				"viewType": "XML",
 				"async": true,
-				"viewPath": "workflowLogManager.workflowLogManager.view",
+				"viewPath": "eco.sec.managerRequestReport.view",
 				"controlAggregation": "pages",
 				"controlId": "app",
 				"clearControlAggregation": false

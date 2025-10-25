@@ -8,7 +8,7 @@ sap.ui.define([
 ], function (Controller, JSONModel, Filter, FilterOperator, Spreadsheet, MessageToast) {
     "use strict";
 
-    return Controller.extend("workflowLogManager.workflowLogManager.controller.WorkflowReportList", {
+    return Controller.extend("eco.sec.managerRequestReport.controller.WorkflowReportList", {
         onInit: function () {
             this._iPageSize = 20;
             this._iSkip = 0;

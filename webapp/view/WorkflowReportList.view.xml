@@ -2,7 +2,7 @@
     xmlns="sap.m"
     xmlns:layout="sap.ui.layout"
     xmlns:core="sap.ui.core"
-    controllerName="workflowLogManager.workflowLogManager.controller.WorkflowReportList">
+    controllerName="eco.sec.managerRequestReport.controller.WorkflowReportList">
 
     <Shell id="shell">
         <App id="app">

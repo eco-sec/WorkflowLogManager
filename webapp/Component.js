@@ -1,12 +1,12 @@
 sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
-	"workflowLogManager/workflowLogManager/model/models"
+	"eco/sec/managerRequestReport/model/models"
 
 ], function (UIComponent, Device, models) {
 	"use strict";
 
-	return UIComponent.extend("workflowLogManager.workflowLogManager.Component", {
+	return UIComponent.extend("eco.sec.managerRequestReport.Component", {
 
 		metadata: {
 			manifest: "json"
@@ -24,7 +24,7 @@ sap.ui.define([
 
 			if (bIsLocalhost) {
 				console.log("🔧 Running on localhost - initializing mock server");
-				sap.ui.require(["workflowLogManager/workflowLogManager/localService/mockserver"], function(mockserver) {
+				sap.ui.require(["eco/sec/managerRequestReport/localService/mockserver"], function(mockserver) {
 					mockserver.init();
 					console.log("✅ Mock server initialized successfully");
 				});

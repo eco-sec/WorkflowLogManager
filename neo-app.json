@@ -11,6 +11,16 @@
 		},
 
 		{
+			"path": "/scpServices",
+			"target": {
+				"type": "destination",
+				"name": "userapi",
+				"entryPath": "/services"
+			},
+			"description": "SCP Services for User API"
+		},
+
+		{
 			"path": "/resources",
 			"target": {
 				"type": "service",

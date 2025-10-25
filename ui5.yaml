@@ -1,6 +1,6 @@
 specVersion: '1.0'
 metadata:
-  name: workflowReport
+  name: eco.sec.managerRequestReport
 type: application
 resources:
   configuration:
@@ -17,14 +17,14 @@ builder:
       configuration:
         destDir: dist
         appFolder: webapp
-        nameSpace: workflowReport
+        nameSpace: eco.sec.managerRequestReport
     - name: webide-extension-task-lint
       afterTask: webide-extension-task-updateNeoApp
       configuration:
         destDir: dist
         appFolder: webapp
-        nameSpace: workflowReport 
+        nameSpace: eco.sec.managerRequestReport
     - name: webide-extension-task-resources
       afterTask: webide-extension-task-lint
       configuration:
-        nameSpace: workflowReport
+        nameSpace: eco.sec.managerRequestReport

@@ -1,5 +1,5 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
-	xmlns:upload="sap.m.upload" controllerName="workflowLogManager.workflowLogManager.controller.WorkflowReportDetails">
+	xmlns:upload="sap.m.upload" controllerName="eco.sec.managerRequestReport.controller.WorkflowReportDetails">
 	<App>
 		<pages>
 			<Page title="Training Event Details">

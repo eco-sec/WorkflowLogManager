@@ -2,11 +2,11 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast",
-	"workflowLogManager/workflowLogManager/service/WorkflowReportService"
+	"eco/sec/managerRequestReport/service/WorkflowReportService"
 ], function (Controller, JSONModel, MessageToast, WorkflowReportService) {
 	"use strict";
 
-	return Controller.extend("workflowLogManager.workflowLogManager.controller.WorkflowReportDetails", {
+	return Controller.extend("eco.sec.managerRequestReport.controller.WorkflowReportDetails", {
 
 		onInit: function () {
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);

@@ -6,7 +6,7 @@ sap.ui.define([
 ], function (Controller, Filter, FilterOperator, DateFormat) {
 	"use strict";
 
-	return Controller.extend("workflowLogManager.workflowLogManager.controller.WorkflowReportListSingle", {
+	return Controller.extend("eco.sec.managerRequestReport.controller.WorkflowReportListSingle", {
 
 		onInit: function () {
 			this._oModel = this.getOwnerComponent().getModel();
