@@ -112,6 +112,14 @@ sap.ui.define([
 					// Handle WorkflowManagerSubordinateView data request
 					else if (url.indexOf("/WorkflowManagerSubordinateView") > -1) {
 						console.log("✅ Mocking: Workflow Manager Subordinate View API");
+
+						// Extract manager ID from URL filter
+						var managerIdMatch = url.match(/MS_MANAGER_ID eq '([^']+)'/);
+						if (managerIdMatch) {
+							var managerId = decodeURIComponent(managerIdMatch[1]);
+							console.log("  → Filtering by MS_MANAGER_ID:", managerId);
+						}
+
 						mockData = oMockData.workflowReport;
 						shouldMock = true;
 					}
@@ -294,10 +302,16 @@ sap.ui.define([
 				response: function(oXhr) {
 					console.log("✅ Mocking: Workflow Manager Subordinate View API");
 
-					// Extract employee ID from URL
+					// Extract manager ID and other filters from URL
 					var url = oXhr.url;
+					var managerIdMatch = url.match(/MS_MANAGER_ID eq '([^']+)'/);
+					var managerId = managerIdMatch ? managerIdMatch[1] : null;
 					var employeeIdMatch = url.match(/EMPLOYEE_ID eq '(\d+)'/);
 					var employeeId = employeeIdMatch ? employeeIdMatch[1] : null;
+
+					if (managerId) {
+						console.log("  → Filtering by MS_MANAGER_ID:", managerId);
+					}
 
 					if (employeeId) {
 						// Filter workflow data for specific employee

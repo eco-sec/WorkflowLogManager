@@ -30,6 +30,9 @@ sap.ui.define([
             });
             this.getView().setModel(oUserInfoModel, "userInfo");
 
+            // Show busy indicator during initialization
+            sap.ui.core.BusyIndicator.show(0);
+
             this.fetchCurrentUser();
             this.fetchAndUpsertSubordinates();
         },
@@ -78,10 +81,13 @@ sap.ui.define([
             var sServiceUrl = "/lmsproject/hana/xsodata/WorkflowReportService.xsodata";
             var aFilterObjects = filters || [];
 
-            // Build filter query string
-            var sFilterQuery = "";
+            // Always add manager ID filter
+            var sManagerId = this.username || "107119";
+            var aFilterStrings = ["MS_MANAGER_ID eq '" + sManagerId + "'"];
+
+            // Build filter query string with additional filters
             if (aFilterObjects.length > 0) {
-                var aFilterStrings = aFilterObjects.map(function(oFilter) {
+                var aAdditionalFilters = aFilterObjects.map(function(oFilter) {
                     var sOperator = "";
                     switch(oFilter.sOperator) {
                         case FilterOperator.Contains:
@@ -102,8 +108,10 @@ sap.ui.define([
                     }
                     return oFilter.sPath + " " + sOperator + " '" + encodeURIComponent(oFilter.oValue1) + "'";
                 });
-                sFilterQuery = "?$filter=" + aFilterStrings.join(" and ");
+                aFilterStrings = aFilterStrings.concat(aAdditionalFilters);
             }
+
+            var sFilterQuery = "?$filter=" + aFilterStrings.join(" and ");
 
             // Build pagination query
             var sPaginationQuery = "";
@@ -142,39 +150,65 @@ sap.ui.define([
                     that.getView().setModel(oJsonModel, "workflowLogModel");
                 }
                 that.getView().byId("workflowLogTable").setBusy(false);
+                // Hide global busy indicator after data is loaded
+                sap.ui.core.BusyIndicator.hide();
             });
 
             oDataModel.attachRequestFailed(function(oEvent) {
                 console.error("Error loading WorkflowLog data");
                 that.getView().byId("workflowLogTable").setBusy(false);
+                // Hide global busy indicator even on error
+                sap.ui.core.BusyIndicator.hide();
             });
         },
 
         onSearch: function () {
             var aFilters = [];
 
+            var sRequestId = this.byId("requestIdInput").getValue();
             var sEmployeeId = this.byId("employeeIdInput").getValue();
-            var sTrainingType = this.byId("trainingTypeInput").getSelectedKey();
-            var sWorkflowId = this.byId("workflowIdInput").getValue();
+            var sEmployeeOrgId = this.byId("employeeOrgIdInput").getValue();
+            var sWorkflowInstanceId = this.byId("workflowInstanceIdInput").getValue();
             var sClassId = this.byId("classIdInput").getValue();
             var sClassTitle = this.byId("classTitleInput").getValue();
-            var sEmployeeOrgId = this.byId("employeeOrgIdInput").getValue();
+            var sTrainingType = this.byId("trainingTypeInput").getSelectedKey();
+            var sWorkflowStatus = this.byId("workflowStatusInput").getSelectedKey();
+
+            var dClassStartDateFrom = this.byId("classStartDateFrom").getDateValue();
+            var dClassStartDateTo = this.byId("classStartDateTo").getDateValue();
+            var dClassEndDateFrom = this.byId("classEndDateFrom").getDateValue();
+            var dClassEndDateTo = this.byId("classEndDateTo").getDateValue();
             var dCreationDateFrom = this.byId("creationDateFrom").getDateValue();
             var dCreationDateTo = this.byId("creationDateTo").getDateValue();
-            // var sApproverId = this.byId("approverIdInput").getValue();
-            var sRequestId = this.byId("requestIdInput").getValue();
-            var sWorkflowStatus = this.byId("workflowStatusInput").getSelectedKey();
 
             if (sRequestId) aFilters.push(new Filter("REQUEST_ID", FilterOperator.Contains, sRequestId));
             if (sEmployeeId) aFilters.push(new Filter("EMPLOYEE_ID", FilterOperator.Contains, sEmployeeId));
-            // if (sApproverId) aFilters.push(new Filter("CA_APPROVER_ID", FilterOperator.Contains, sApproverId));
-            if (sTrainingType) aFilters.push(new Filter("TRAINING_TYPE_ID", FilterOperator.EQ, sTrainingType));
-            if (sWorkflowId) aFilters.push(new Filter("WORKFLOW_INSTANCE_ID", FilterOperator.Contains, sWorkflowId));
+            if (sEmployeeOrgId) aFilters.push(new Filter("EMPLOYEE_ORGANIZATION_ID", FilterOperator.Contains, sEmployeeOrgId));
+            if (sWorkflowInstanceId) aFilters.push(new Filter("WORKFLOW_INSTANCE_ID", FilterOperator.Contains, sWorkflowInstanceId));
             if (sClassId) aFilters.push(new Filter("CLASS_ID", FilterOperator.Contains, sClassId));
             if (sClassTitle) aFilters.push(new Filter("CLASS_TITLE", FilterOperator.Contains, sClassTitle));
-            if (sEmployeeOrgId) aFilters.push(new Filter("EMPLOYEE_ORGANIZATION_ID", FilterOperator.Contains, sEmployeeOrgId));
+            if (sTrainingType) aFilters.push(new Filter("TRAINING_TYPE_ID", FilterOperator.EQ, sTrainingType));
             if (sWorkflowStatus) aFilters.push(new Filter("WORKFLOW_STATUS", FilterOperator.EQ, sWorkflowStatus));
 
+            // Class Start Date Range
+            if (dClassStartDateFrom && dClassStartDateTo) {
+                aFilters.push(new Filter("CLASS_START_DATE", FilterOperator.BT, dClassStartDateFrom, dClassStartDateTo));
+            } else if (dClassStartDateFrom) {
+                aFilters.push(new Filter("CLASS_START_DATE", FilterOperator.GE, dClassStartDateFrom));
+            } else if (dClassStartDateTo) {
+                aFilters.push(new Filter("CLASS_START_DATE", FilterOperator.LE, dClassStartDateTo));
+            }
+
+            // Class End Date Range
+            if (dClassEndDateFrom && dClassEndDateTo) {
+                aFilters.push(new Filter("CLASS_END_DATE", FilterOperator.BT, dClassEndDateFrom, dClassEndDateTo));
+            } else if (dClassEndDateFrom) {
+                aFilters.push(new Filter("CLASS_END_DATE", FilterOperator.GE, dClassEndDateFrom));
+            } else if (dClassEndDateTo) {
+                aFilters.push(new Filter("CLASS_END_DATE", FilterOperator.LE, dClassEndDateTo));
+            }
+
+            // Creation Date Range
             if (dCreationDateFrom && dCreationDateTo) {
                 aFilters.push(new Filter("WLR_CREATION_DATE", FilterOperator.BT, dCreationDateFrom, dCreationDateTo));
             } else if (dCreationDateFrom) {
@@ -187,6 +221,32 @@ sap.ui.define([
             this.getView().getModel("view").setProperty("/currentPage", 0);
             this._aCurrentFilters = aFilters;
             this.loadWorkflowLogData(aFilters);
+        },
+
+        onClearSearch: function () {
+            // Clear all input fields
+            this.byId("requestIdInput").setValue("");
+            this.byId("employeeIdInput").setValue("");
+            this.byId("employeeOrgIdInput").setValue("");
+            this.byId("workflowInstanceIdInput").setValue("");
+            this.byId("classIdInput").setValue("");
+            this.byId("classTitleInput").setValue("");
+            this.byId("trainingTypeInput").setSelectedKey("");
+            this.byId("workflowStatusInput").setSelectedKey("");
+            this.byId("classStartDateFrom").setValue("");
+            this.byId("classStartDateTo").setValue("");
+            this.byId("classEndDateFrom").setValue("");
+            this.byId("classEndDateTo").setValue("");
+            this.byId("creationDateFrom").setValue("");
+            this.byId("creationDateTo").setValue("");
+
+            // Reset pagination
+            this._iSkip = 0;
+            this.getView().getModel("view").setProperty("/currentPage", 0);
+            this._aCurrentFilters = [];
+
+            // Reload data with no filters (except manager filter)
+            this.loadWorkflowLogData([]);
         },
 
         onNextPage: function () {
@@ -210,10 +270,13 @@ sap.ui.define([
             var sServiceUrl = "/lmsproject/hana/xsodata/WorkflowReportService.xsodata";
             var aFilterObjects = this._aCurrentFilters || [];
 
-            // Build filter query string
-            var sFilterQuery = "";
+            // Always add manager ID filter
+            var sManagerId = this.username || "107119";
+            var aFilterStrings = ["MS_MANAGER_ID eq '" + sManagerId + "'"];
+
+            // Build filter query string with additional filters
             if (aFilterObjects.length > 0) {
-                var aFilterStrings = aFilterObjects.map(function(oFilter) {
+                var aAdditionalFilters = aFilterObjects.map(function(oFilter) {
                     var sOperator = "";
                     switch(oFilter.sOperator) {
                         case FilterOperator.Contains:
@@ -233,8 +296,10 @@ sap.ui.define([
                     }
                     return oFilter.sPath + " " + sOperator + " '" + encodeURIComponent(oFilter.oValue1) + "'";
                 });
-                sFilterQuery = "?$filter=" + aFilterStrings.join(" and ");
+                aFilterStrings = aFilterStrings.concat(aAdditionalFilters);
             }
+
+            var sFilterQuery = "?$filter=" + aFilterStrings.join(" and ");
 
             // Fetch all data without pagination for export
             var oExportModel = new JSONModel();
@@ -303,13 +368,8 @@ sap.ui.define([
                     type: "string"
                 },
                 {
-                    label: "Workflow Type",
-                    property: "WORKFLOW_TYPE",
-                    type: "string"
-                },
-                {
-                    label: "Status",
-                    property: "WORKFLOW_STATUS",
+                    label: "Employee Organization ID",
+                    property: "EMPLOYEE_ORGANIZATION_ID",
                     type: "string"
                 },
                 {
@@ -323,22 +383,72 @@ sap.ui.define([
                     type: "string"
                 },
                 {
-                    label: "Start Date",
+                    label: "Class Start Date",
                     property: "CLASS_START_DATE",
                     type: "date",
                     format: "yyyy-mm-dd"
                 },
                 {
-                    label: "End Date",
+                    label: "Class End Date",
                     property: "CLASS_END_DATE",
                     type: "date",
                     format: "yyyy-mm-dd"
                 },
                 {
-                    label: "Created Date",
-                    property: "CREATED_DATE",
+                    label: "Status",
+                    property: "WORKFLOW_STATUS",
+                    type: "string"
+                },
+                {
+                    label: "Training Type",
+                    property: "TRAINING_TYPE_DESC",
+                    type: "string"
+                },
+                {
+                    label: "Creation Date",
+                    property: "WLR_CREATION_DATE",
                     type: "date",
                     format: "yyyy-mm-dd"
+                },
+                {
+                    label: "Approver Email",
+                    property: "CA_EMP_EMAIL",
+                    type: "string"
+                },
+                {
+                    label: "Approver No",
+                    property: "CA_EMP_NO",
+                    type: "string"
+                },
+                {
+                    label: "Approver Name",
+                    property: "CA_APPROVER_NAME",
+                    type: "string"
+                },
+                {
+                    label: "Approver Position",
+                    property: "CA_EMP_POSITION",
+                    type: "string"
+                },
+                {
+                    label: "Approver Org",
+                    property: "CA_EMP_ORG",
+                    type: "string"
+                },
+                {
+                    label: "Approver Org Name",
+                    property: "CA_EMP_ORG_NAME",
+                    type: "string"
+                },
+                {
+                    label: "Approver Position Name",
+                    property: "CA_POSITION_NAME",
+                    type: "string"
+                },
+                {
+                    label: "Approver Organization Name",
+                    property: "CA_ORG_NAME",
+                    type: "string"
                 }
             ];
         },
@@ -481,12 +591,12 @@ sap.ui.define([
                     var oManagerData = {
                         MANAGERS: [
                             {
-                                MANAGER_ID: sCurrentUserId,
+                                MANAGER_ID: String(sCurrentUserId),
                                 SUBORDINATES: aSubordinates.map(function(emp) {
                                     return {
-                                        EMPLOYEE_ID: emp.EmpPernr || "",
-                                        EMPLOYEE_NAME: emp.EmpEnglishName || "",
-                                        EMPLOYEE_EMAIL: emp.EmpEmailId || ""
+                                        EMPLOYEE_ID: String(emp.EmpPernr || ""),
+                                        EMPLOYEE_NAME: String(emp.EmpEnglishName || ""),
+                                        EMPLOYEE_EMAIL: String(emp.EmpEmailId || "")
                                     };
                                 })
                             }

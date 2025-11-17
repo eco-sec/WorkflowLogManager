@@ -19,16 +19,35 @@
                         </Bar>
                     </customHeader>
                     <content>
-                        <layout:Grid defaultSpan="L4 M4 S12" hSpacing="0.5rem" vSpacing="0.5rem">
-                            <VBox class="sapUiSmallMargin">
+                        <layout:Grid defaultSpan="L3 M6 S12" hSpacing="0.5rem" vSpacing="0" class="sapUiTinyMarginBegin sapUiTinyMarginEnd">
+                            <VBox class="sapUiTinyMargin">
+                                <Label text="Request ID"/>
+                                <Input id="requestIdInput"/>
+                            </VBox>
+                            <VBox class="sapUiTinyMargin">
                                 <Label text="Employee ID"/>
                                 <Input id="employeeIdInput"
                                     showValueHelp="true"
                                     valueHelpRequest="onEmployeeValueHelp"
                                     placeholder="Select or enter Employee ID"/>
                             </VBox>
-                            <VBox class="sapUiSmallMargin"><Label text="Request ID"/><Input id="requestIdInput"/></VBox>
-                            <VBox class="sapUiSmallMargin">
+                            <VBox class="sapUiTinyMargin">
+                                <Label text="Employee Organization ID"/>
+                                <Input id="employeeOrgIdInput"/>
+                            </VBox>
+                            <VBox class="sapUiTinyMargin">
+                                <Label text="Workflow Instance ID"/>
+                                <Input id="workflowInstanceIdInput"/>
+                            </VBox>
+                            <VBox class="sapUiTinyMargin">
+                                <Label text="Class ID"/>
+                                <Input id="classIdInput"/>
+                            </VBox>
+                            <VBox class="sapUiTinyMargin">
+                                <Label text="Class Title"/>
+                                <Input id="classTitleInput"/>
+                            </VBox>
+                            <VBox class="sapUiTinyMargin">
                                 <Label text="Training Type"/>
                                 <Select id="trainingTypeInput" width="100%">
                                     <core:Item key="" text="All"/>
@@ -36,33 +55,40 @@
                                     <core:Item key="2" text="In Company Course (Outside area)"/>
                                     <core:Item key="4" text="Out of Company Course (IK / OOK)"/>
                                     <core:Item key="7" text="No Show"/>
-                                     <core:Item key="11" text="Direct Enrollment"/>
-                                         <core:Item key="12" text="New Business Event"/>
+                                    <core:Item key="11" text="Direct Enrollment"/>
+                                    <core:Item key="12" text="New Business Event"/>
                                 </Select>
                             </VBox>
-                            <VBox class="sapUiSmallMargin"><Label text="Workflow Instance ID"/><Input id="workflowIdInput"/></VBox>
-                            <VBox class="sapUiSmallMargin"><Label text="Class ID"/><Input id="classIdInput"/></VBox>
-                            <VBox class="sapUiSmallMargin"><Label text="Class Title"/><Input id="classTitleInput"/></VBox>
-                            <VBox class="sapUiSmallMargin"><Label text="Employee Organization ID"/><Input id="employeeOrgIdInput"/></VBox>
-                            <VBox class="sapUiSmallMargin">
-                                <Label text="Creation Date (Range)"/>
-                                <HBox>
-                                    <DatePicker id="creationDateFrom" placeholder="From"/>
-                                    <DatePicker id="creationDateTo" placeholder="To"/>
-                                </HBox>
-                            </VBox>
-                            <!--<VBox class="sapUiSmallMargin"><Label text="Approver ID"/><Input id="approverIdInput"/></VBox>-->
-                            <VBox class="sapUiSmallMargin">
+                            <VBox class="sapUiTinyMargin">
                                 <Label text="Status"/>
                                 <Select id="workflowStatusInput" width="100%">
                                     <core:Item key="" text="All"/>
                                     <core:Item key="Approved" text="Approved"/>
                                     <core:Item key="Pending" text="Pending"/>
                                     <core:Item key="Rejected" text="Rejected"/>
-                                      <core:Item key="Rejected" text="Rejected"/>
-                                      <core:Item key="Cancelled" text="Cancelled"/>
-                                      
+                                    <core:Item key="Cancelled" text="Cancelled"/>
                                 </Select>
+                            </VBox>
+                            <VBox class="sapUiTinyMargin">
+                                <Label text="Class Start Date (Range)"/>
+                                <HBox>
+                                    <DatePicker id="classStartDateFrom" placeholder="From"/>
+                                    <DatePicker id="classStartDateTo" placeholder="To"/>
+                                </HBox>
+                            </VBox>
+                            <VBox class="sapUiTinyMargin">
+                                <Label text="Class End Date (Range)"/>
+                                <HBox>
+                                    <DatePicker id="classEndDateFrom" placeholder="From"/>
+                                    <DatePicker id="classEndDateTo" placeholder="To"/>
+                                </HBox>
+                            </VBox>
+                            <VBox class="sapUiTinyMargin">
+                                <Label text="Creation Date (Range)"/>
+                                <HBox>
+                                    <DatePicker id="creationDateFrom" placeholder="From"/>
+                                    <DatePicker id="creationDateTo" placeholder="To"/>
+                                </HBox>
                             </VBox>
                         </layout:Grid>
 
@@ -71,6 +97,7 @@
                             <Button text="Next Page" press="onNextPage"/>
                             <ToolbarSpacer/>
                             <Button text="Export to Excel" press="onExportToExcel" type="Transparent"/>
+                            <Button icon="sap-icon://clear-filter" press="onClearSearch" tooltip="Clear"/>
                             <Button text="Search" press="onSearch" type="Emphasized"/>
                         </Toolbar>
 
@@ -83,46 +110,62 @@
                             </contentRight>
                         </Bar>
 
-                        <IconTabBar id="iconTabBar" expandable="false">
-                            <items>
-                                <IconTabFilter text="Workflow Log" key="WorkflowLog">
-                                    <Table
-                                        id="workflowLogTable"
-                                        items="{workflowLogModel>/}"
-                                        mode="SingleSelectMaster"
-                                        itemPress=".onItemPress"
-                                        busyIndicatorDelay="0"
-                                        growing="false">
-                                        <columns>
-                                            <Column><Text text="Request ID"/></Column>
-                                            <Column><Text text="Employee ID"/></Column>
-                                            <Column><Text text="Employee Name"/></Column>
-                                            <Column><Text text="Employee Organization ID"/></Column>
-                                            <Column><Text text="Class ID"/></Column>
-                                            <Column><Text text="Class Title"/></Column>
-                                            <Column><Text text="Status"/></Column>
-                                            <Column><Text text="Training Type"/></Column>
-                                            <Column><Text text="Creation Date"/></Column>
-                                        </columns>
-                                        <items>
-                                            <ColumnListItem type="Active">
-                                                <cells>
-                                                    <Text text="{workflowLogModel>REQUEST_ID}"/>
-                                                    <Text text="{workflowLogModel>EMPLOYEE_ID}"/>
-                                                    <Text text="{workflowLogModel>EMPLOYEE_NAME}"/>
-                                                    <Text text="{workflowLogModel>EMPLOYEE_ORGANIZATION_ID}"/>
-                                                    <Text text="{workflowLogModel>CLASS_ID}"/>
-                                                    <Text text="{workflowLogModel>CLASS_TITLE}"/>
-                                                    <Text text="{workflowLogModel>WORKFLOW_STATUS}"/>
-                                                    <Text text="{workflowLogModel>TRAINING_TYPE_DESC}"/>
-                                                    <Text text="{path: 'workflowLogModel>WLR_CREATION_DATE', formatter: '.formatDate'}"/>
-                                                </cells>
-                                            </ColumnListItem>
-                                        </items>
-                                    </Table>
-                                </IconTabFilter>
-                            </items>
-                        </IconTabBar>
+                        <ScrollContainer width="100%" height="100%" horizontal="true" vertical="true">
+                            <Table
+                                id="workflowLogTable"
+                                items="{workflowLogModel>/}"
+                                mode="SingleSelectMaster"
+                                itemPress=".onItemPress"
+                                busyIndicatorDelay="0"
+                                growing="false">
+                                <columns>
+                                    <Column width="10em" minScreenWidth="Tablet" demandPopin="true"><Text text="Request ID"/></Column>
+                                    <Column width="8em" minScreenWidth="Tablet" demandPopin="true"><Text text="Employee ID"/></Column>
+                                    <Column width="15em" minScreenWidth="Desktop" demandPopin="true"><Text text="Employee Name"/></Column>
+                                    <Column width="10em" minScreenWidth="Desktop" demandPopin="true"><Text text="Employee Organization ID"/></Column>
+                                    <Column width="8em" minScreenWidth="Tablet" demandPopin="true"><Text text="Class ID"/></Column>
+                                    <Column width="20em" minScreenWidth="Desktop" demandPopin="true"><Text text="Class Title"/></Column>
+                                    <Column width="10em" minScreenWidth="Tablet" demandPopin="true"><Text text="Class Start Date"/></Column>
+                                    <Column width="10em" minScreenWidth="Tablet" demandPopin="true"><Text text="Class End Date"/></Column>
+                                    <Column width="8em" minScreenWidth="Tablet" demandPopin="false"><Text text="Status"/></Column>
+                                    <Column width="15em" minScreenWidth="Desktop" demandPopin="true"><Text text="Training Type"/></Column>
+                                    <Column width="10em" minScreenWidth="Desktop" demandPopin="true"><Text text="Creation Date"/></Column>
+                                    <Column width="15em" minScreenWidth="Desktop" demandPopin="true"><Text text="Approver Email"/></Column>
+                                    <Column width="8em" minScreenWidth="Desktop" demandPopin="true"><Text text="Approver No"/></Column>
+                                    <Column width="15em" minScreenWidth="Desktop" demandPopin="true"><Text text="Approver Name"/></Column>
+                                    <Column width="20em" minScreenWidth="Desktop" demandPopin="true"><Text text="Approver Position"/></Column>
+                                    <Column width="10em" minScreenWidth="Desktop" demandPopin="true"><Text text="Approver Org"/></Column>
+                                    <Column width="20em" minScreenWidth="Desktop" demandPopin="true"><Text text="Approver Org Name"/></Column>
+                                    <Column width="20em" minScreenWidth="Desktop" demandPopin="true"><Text text="Approver Position Name"/></Column>
+                                    <Column width="20em" minScreenWidth="Desktop" demandPopin="true"><Text text="Approver Organization Name"/></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem type="Active">
+                                        <cells>
+                                            <Text text="{workflowLogModel>REQUEST_ID}"/>
+                                            <Text text="{workflowLogModel>EMPLOYEE_ID}"/>
+                                            <Text text="{workflowLogModel>EMPLOYEE_NAME}"/>
+                                            <Text text="{workflowLogModel>EMPLOYEE_ORGANIZATION_ID}"/>
+                                            <Text text="{workflowLogModel>CLASS_ID}"/>
+                                            <Text text="{workflowLogModel>CLASS_TITLE}"/>
+                                            <Text text="{path: 'workflowLogModel>CLASS_START_DATE', formatter: '.formatDate'}"/>
+                                            <Text text="{path: 'workflowLogModel>CLASS_END_DATE', formatter: '.formatDate'}"/>
+                                            <Text text="{workflowLogModel>WORKFLOW_STATUS}"/>
+                                            <Text text="{workflowLogModel>TRAINING_TYPE_DESC}"/>
+                                            <Text text="{path: 'workflowLogModel>WLR_CREATION_DATE', formatter: '.formatDate'}"/>
+                                            <Text text="{workflowLogModel>CA_EMP_EMAIL}"/>
+                                            <Text text="{workflowLogModel>CA_EMP_NO}"/>
+                                            <Text text="{workflowLogModel>CA_APPROVER_NAME}"/>
+                                            <Text text="{workflowLogModel>CA_EMP_POSITION}"/>
+                                            <Text text="{workflowLogModel>CA_EMP_ORG}"/>
+                                            <Text text="{workflowLogModel>CA_EMP_ORG_NAME}"/>
+                                            <Text text="{workflowLogModel>CA_POSITION_NAME}"/>
+                                            <Text text="{workflowLogModel>CA_ORG_NAME}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </ScrollContainer>
                     </content>
                 </Page>
             </pages>
