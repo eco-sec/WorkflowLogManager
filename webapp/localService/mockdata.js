@@ -119,7 +119,16 @@ sap.ui.define([], function () {
 						TRAINING_PROVIDER: "SAP Learning Hub",
 						LOCATION: "Riyadh",
 						PRIORITY: "High",
-						COMMENTS: "Required for project work"
+						COMMENTS: "Required for project work",
+						WLR_CREATION_DATE: "/Date(1733097600000)/",
+						CA_APPROVER_EMAIL: "ahmed.hassan@example.com",
+						CA_APPROVER_ID: "107119",
+						CA_APPROVER_NAME: "Ahmed Hassan",
+						CA_APPROVER_POSITION: "Senior Manager",
+						CA_APPROVER_ORG: "IT-001",
+						CA_APPROVER_ORG_NAME: "IT Department",
+						CA_POSITION_NAME: "Senior Manager",
+						CA_ORG_NAME: "IT Department"
 					},
 					{
 						REQUEST_ID: "WF002",
@@ -143,7 +152,16 @@ sap.ui.define([], function () {
 						TRAINING_PROVIDER: "SAP Education",
 						LOCATION: "Jeddah",
 						PRIORITY: "Medium",
-						COMMENTS: "Career development course"
+						COMMENTS: "Career development course",
+						WLR_CREATION_DATE: "/Date(1732492800000)/",
+						CA_APPROVER_EMAIL: "ahmed.hassan@example.com",
+						CA_APPROVER_ID: "107119",
+						CA_APPROVER_NAME: "Ahmed Hassan",
+						CA_APPROVER_POSITION: "Senior Manager",
+						CA_APPROVER_ORG: "IT-001",
+						CA_APPROVER_ORG_NAME: "IT Department",
+						CA_POSITION_NAME: "Senior Manager",
+						CA_ORG_NAME: "IT Department"
 					},
 					{
 						REQUEST_ID: "WF003",
@@ -167,7 +185,16 @@ sap.ui.define([], function () {
 						TRAINING_PROVIDER: "SAP Training Center",
 						LOCATION: "Dammam",
 						PRIORITY: "Low",
-						COMMENTS: "Budget constraints"
+						COMMENTS: "Budget constraints",
+						WLR_CREATION_DATE: "/Date(1731888000000)/",
+						CA_APPROVER_EMAIL: "ahmed.hassan@example.com",
+						CA_APPROVER_ID: "107119",
+						CA_APPROVER_NAME: "Ahmed Hassan",
+						CA_APPROVER_POSITION: "Senior Manager",
+						CA_APPROVER_ORG: "IT-001",
+						CA_APPROVER_ORG_NAME: "IT Department",
+						CA_POSITION_NAME: "Senior Manager",
+						CA_ORG_NAME: "IT Department"
 					},
 					{
 						REQUEST_ID: "WF004",
@@ -191,7 +218,16 @@ sap.ui.define([], function () {
 						TRAINING_PROVIDER: "SAP Arabia",
 						LOCATION: "Riyadh",
 						PRIORITY: "High",
-						COMMENTS: "Successfully completed with certification"
+						COMMENTS: "Successfully completed with certification",
+						WLR_CREATION_DATE: "/Date(1730678400000)/",
+						CA_APPROVER_EMAIL: "ahmed.hassan@example.com",
+						CA_APPROVER_ID: "107119",
+						CA_APPROVER_NAME: "Ahmed Hassan",
+						CA_APPROVER_POSITION: "Senior Manager",
+						CA_APPROVER_ORG: "IT-001",
+						CA_APPROVER_ORG_NAME: "IT Department",
+						CA_POSITION_NAME: "Senior Manager",
+						CA_ORG_NAME: "IT Department"
 					},
 					{
 						REQUEST_ID: "WF005",
@@ -215,7 +251,16 @@ sap.ui.define([], function () {
 						TRAINING_PROVIDER: "SAP Learning Center",
 						LOCATION: "Online",
 						PRIORITY: "High",
-						COMMENTS: "Currently attending"
+						COMMENTS: "Currently attending",
+						WLR_CREATION_DATE: "/Date(1732838400000)/",
+						CA_APPROVER_EMAIL: "ahmed.hassan@example.com",
+						CA_APPROVER_ID: "107119",
+						CA_APPROVER_NAME: "Ahmed Hassan",
+						CA_APPROVER_POSITION: "Senior Manager",
+						CA_APPROVER_ORG: "IT-001",
+						CA_APPROVER_ORG_NAME: "IT Department",
+						CA_POSITION_NAME: "Senior Manager",
+						CA_ORG_NAME: "IT Department"
 					},
 					{
 						REQUEST_ID: "WF006",
@@ -239,7 +284,16 @@ sap.ui.define([], function () {
 						TRAINING_PROVIDER: "SAP Training Hub",
 						LOCATION: "Riyadh",
 						PRIORITY: "Medium",
-						COMMENTS: "Cancelled due to resource unavailability"
+						COMMENTS: "Cancelled due to resource unavailability",
+						WLR_CREATION_DATE: "/Date(1733184000000)/",
+						CA_APPROVER_EMAIL: "ahmed.hassan@example.com",
+						CA_APPROVER_ID: "107119",
+						CA_APPROVER_NAME: "Ahmed Hassan",
+						CA_APPROVER_POSITION: "Senior Manager",
+						CA_APPROVER_ORG: "IT-001",
+						CA_APPROVER_ORG_NAME: "IT Department",
+						CA_POSITION_NAME: "Senior Manager",
+						CA_ORG_NAME: "IT Department"
 					}
 				]
 			}
@@ -273,7 +327,16 @@ sap.ui.define([], function () {
 				TRAINING_DURATION: "3 days",
 				CERTIFICATION: "Yes",
 				PREREQUISITES: "Basic programming knowledge",
-				LEARNING_OBJECTIVES: "Master ABAP programming fundamentals and syntax"
+				LEARNING_OBJECTIVES: "Master ABAP programming fundamentals and syntax",
+				WLR_CREATION_DATE: "/Date(1733097600000)/",
+				CA_APPROVER_EMAIL: "ahmed.hassan@example.com",
+				CA_APPROVER_ID: "107119",
+				CA_APPROVER_NAME: "Ahmed Hassan",
+				CA_APPROVER_POSITION: "Senior Manager",
+				CA_APPROVER_ORG: "IT-001",
+				CA_APPROVER_ORG_NAME: "IT Department",
+				CA_POSITION_NAME: "Senior Manager",
+				CA_ORG_NAME: "IT Department"
 			}
 		},
 

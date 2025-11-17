@@ -153,12 +153,12 @@
                                             <Text text="{workflowLogModel>WORKFLOW_STATUS}"/>
                                             <Text text="{workflowLogModel>TRAINING_TYPE_DESC}"/>
                                             <Text text="{path: 'workflowLogModel>WLR_CREATION_DATE', formatter: '.formatDate'}"/>
-                                            <Text text="{workflowLogModel>CA_EMP_EMAIL}"/>
-                                            <Text text="{workflowLogModel>CA_EMP_NO}"/>
+                                            <Text text="{workflowLogModel>CA_APPROVER_EMAIL}"/>
+                                            <Text text="{workflowLogModel>CA_APPROVER_ID}"/>
                                             <Text text="{workflowLogModel>CA_APPROVER_NAME}"/>
-                                            <Text text="{workflowLogModel>CA_EMP_POSITION}"/>
-                                            <Text text="{workflowLogModel>CA_EMP_ORG}"/>
-                                            <Text text="{workflowLogModel>CA_EMP_ORG_NAME}"/>
+                                            <Text text="{workflowLogModel>CA_APPROVER_POSITION}"/>
+                                            <Text text="{workflowLogModel>CA_APPROVER_ORG}"/>
+                                            <Text text="{workflowLogModel>CA_APPROVER_ORG_NAME}"/>
                                             <Text text="{workflowLogModel>CA_POSITION_NAME}"/>
                                             <Text text="{workflowLogModel>CA_ORG_NAME}"/>
                                         </cells>
